@@ -21,7 +21,7 @@ https://wallet.chivesweave.org
 
 ### Identity
 
-Profile data is hosted permanently on the weave. To represent user profile for a specific address, the latest transaction using the tag `App-Name: arweave-id` is selected and the following tag values are displayed:
+Profile data is hosted permanently on the weave. To represent user profile for a specific address, the latest transaction using the tag `App-Name: chivesweave-id` is selected and the following tag values are displayed:
 
 User info
 - `Name: string` Username

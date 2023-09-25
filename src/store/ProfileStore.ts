@@ -31,7 +31,7 @@ export async function getArweaveId (address?: string) {
 		const query = async (tags: TagFilter[]) => (await graphql.getTransactions({ owners: [address], tags, first: 1 }).catch(() => {}))?.transactions?.edges?.[0]?.node
 		console.log("getArweaveId address 2 ",address)
 		const promises = [
-			async () => query([{ name: 'App-Name', values: ['arweave-id'] }]),
+			async () => query([{ name: 'App-Name', values: ['chivesweave-id'] }]),
 			async () => query([{ name: 'Contract', values: ['t9T7DIOGxx4VWXoCEeYYarFYeERTpWIC1V3y-BPZgKE'] }]).then(tx => {
 				const input = tx && unpackTags(tx?.tags, { lowercase: true }).input
 				if (!input) { return }

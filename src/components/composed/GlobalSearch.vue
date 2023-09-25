@@ -52,7 +52,7 @@ const getNameTxQuery = () => subSearch.value ? [
 	arweaveQuery(computed(() => ({ tags: [{ name: search.value, values: [subSearch.value] }] }))),
 ] : [
 	// todo arweaveQuery(computed(() => search.value.split('/').length === 2 ? { tags: [{ name: 'Content-Type', values: [search.value.toLowerCase()] }] } : undefined)),
-	arweaveQuery(computed(() => ({ tags: [{ name: 'App-Name', values: ['arweave-id'] }, { name: 'Name', values: [search.value] }] }))),
+	arweaveQuery(computed(() => ({ tags: [{ name: 'App-Name', values: ['chivesweave-id'] }, { name: 'Name', values: [search.value] }] }))),
 	// todo other profile providers
 	arweaveQuery(computed(() => ({ tags: [{ name: 'App-Name', values: [search.value] }] }))),
 	arweaveQuery(computed(() => search.value.toLowerCase() !== search.value ? { tags: [{ name: 'App-Name', values: [search.value.toLowerCase()] }] } : undefined)),

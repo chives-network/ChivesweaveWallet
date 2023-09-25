@@ -1,7 +1,6 @@
 <template>
-	<SettingItem :icon="LOGO.browsers.chrome" name="Chrome" description="Chrome Web Store" to="https://chrome.google.com/webstore/detail/arweaveapp/hloekinecmafifaghekdjepphlabepkl" />
-	<SettingItem :icon="LOGO.browsers.edge" name="Edge" description="Chrome Web Store" to="https://chrome.google.com/webstore/detail/arweaveapp/hloekinecmafifaghekdjepphlabepkl" />
-	<SettingItem :icon="LOGO.browsers.firefox" name="Firefox" description="Addons for Firefox" to="https://addons.mozilla.org/firefox/addon/arweave-app" />
+	<SettingItem :icon="LOGO.browsers.chrome" name="Chrome" description="Chrome Web Store" to="https://chrome.google.com/webstore/detail/chivesweaveapp/hloekinecmafifaghekdjepphlabepkl" />
+	<SettingItem :icon="LOGO.browsers.edge" name="Edge" description="Chrome Web Store" to="https://chrome.google.com/webstore/detail/chivesweaveapp/hloekinecmafifaghekdjepphlabepkl" />
 </template>
 
 

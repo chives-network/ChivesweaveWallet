@@ -18,13 +18,13 @@ export default (env: any): Partial<VitePWAOptions> => ({
 				purpose: 'monochrome any',
 			},
 			{
-				src: 'arweave-192.png',
+				src: 'chivesweave-192.png',
 				type: 'image/png',
 				sizes: '192x192',
 				purpose: 'monochrome any',
 			},
 			{
-				src: 'arweave-512.png',
+				src: 'chivesweave-512.png',
 				type: 'image/png',
 				sizes: '512x512',
 				purpose: 'monochrome any',

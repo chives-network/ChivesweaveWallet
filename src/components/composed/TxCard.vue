@@ -81,7 +81,7 @@ const dataType = computed(() => {
 const dataInfo = computed(() => tags.value['app'] || tags.value['application'] || tags.value['app-name'] || tags.value['application-name']
 	|| tags.value['service'] || tags.value['service-name']
 	|| tags.value['protocol'] || tags.value['protocol-name']
-	|| tags.value['arweave-app'] || tags.value['uploading-app']
+	|| tags.value['chivesweave-app'] || tags.value['uploading-app']
 	|| tags.value['user-agent']?.split('/').join(' ') || tags.value['file-name']
 	|| tags.value['type'])
 const context = computed(() => {

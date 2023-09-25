@@ -248,7 +248,7 @@ export async function focusWindow () {
 export async function postMessageExtension (message: 'connect' | 'permissions' | 'state' | 'close') {
 	if (state.value.type !== 'extension') { return }
 	if (message === 'connect') { return postMessageExtensionConnect() }
-	windowRef.postMessage('arweave-app-extension:' + message, '*')
+	windowRef.postMessage('chivesweave-app-extension:' + message, '*')
 	if (message === 'state') { return postMessageExtensionState() }
 }
 
@@ -256,7 +256,7 @@ async function postMessageExtensionConnect () {
 	const state = await postMessageExtension('state')
 	if (!state) { return }
 	return new Promise<void>((res, rej) => {
-		windowRef.postMessage('arweave-app-extension:' + 'connect', '*')
+		windowRef.postMessage('chivesweave-app-extension:' + 'connect', '*')
 		const snapshot = connectorsData.value.filter(connector => connector.origin === state.origin)
 		const stop = watch(() => connectorsData.value, () => {
 			const diff = connectorsData.value.filter(connector => connector.origin === state.origin && !snapshot.includes(connector))

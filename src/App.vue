@@ -43,7 +43,7 @@ const verticalContent = toRef(InterfaceStore.breakpoints, 'verticalContent')
 const dragOverlay = toRef(InterfaceStore, 'dragOverlay')
 const hasToolbar = toRef(InterfaceStore.toolbar, 'enabled')
 router.afterEach((to, from) => {
-	document.title = to.meta.title ? to.meta.title + ' | Arweave Wallet' : 'Arweave Wallet'
+	document.title = to.meta.title ? to.meta.title + ' | Chivesweave Wallet' : 'Chivesweave Wallet'
 	const routes = router.options.routes
 	const param = {
 		to: findRoutePosition(to.name, routes),

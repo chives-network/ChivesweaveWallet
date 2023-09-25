@@ -102,7 +102,7 @@ export class ArweaveProvider extends mix(ArweaveAccount).with(WalletProxy) imple
 	get metadata (): InstanceMetadata<ArweaveProvider> {
 		return {
 			...ArweaveProvider.metadata,
-			name: this.hasPrivateKey ? 'Arweave wallet' : ArweaveProvider.metadata.name,
+			name: this.hasPrivateKey ? 'Chivesweave Wallet' : ArweaveProvider.metadata.name,
 			methods: {
 				download: { unavailable: !this.hasPrivateKey },
 				signTransaction: { userIntent: !this.hasPrivateKey },

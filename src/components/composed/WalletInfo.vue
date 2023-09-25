@@ -25,7 +25,7 @@ const props = defineProps<{ wallet: Wallet }>()
 const arweaveId = computed(() => (ProfileStore.arweaveId as any)[props.wallet.key!])
 const walletInfo = computed(() => coldState.value && props.wallet.hasPrivateKey
 	? props.wallet.state.hot ? { icon: ICON.unlock, name: 'Hot Wallet' } : { icon: ICON.snow, name: 'Cold Wallet' }
-	: props.wallet.metadata || { icon: LOGO.arweave, name: 'Arweave wallet' })
+	: props.wallet.metadata || { icon: LOGO.arweave, name: 'Chivesweave Wallet' })
 watch(() => props.wallet.key, () => getArweaveId(props.wallet.key))
 </script>
 

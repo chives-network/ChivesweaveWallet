@@ -1,4 +1,4 @@
-# Arweave Web Wallet
+# Chivesweave Wallet
 
 ![Header image](public/arweaveViewLandscape.svg)
 

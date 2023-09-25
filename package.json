@@ -1,7 +1,7 @@
 {
 	"name": "arweave-web-wallet",
 	"version": "0.1.0",
-	"homepage": "https://arweave.app",
+	"homepage": "https://wallet.chivesweave.org",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/jfbeats/ArweaveWebWallet"

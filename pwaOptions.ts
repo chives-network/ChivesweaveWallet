@@ -32,7 +32,7 @@ export default (env: any): Partial<VitePWAOptions> => ({
 		],
 		related_applications: [{
 			platform: 'webapp',
-			url: 'https://arweave.app/manifest.webmanifest'
+			url: 'https://wallet.chivesweave.org/manifest.webmanifest'
 		}]
 	}
 })

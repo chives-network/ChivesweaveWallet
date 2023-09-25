@@ -3,7 +3,7 @@
 	<SettingItem v-if="Wallets.length" :icon="LOGO.socials.discord" name="Discord" description="Send feedback, questions or talk about anything" to="https://discord.gg/W6VybRqwBP"/>
 	<SettingItem :icon="LOGO.socials.twitter" name="Twitter" description="Announcements" to="https://twitter.com/ArweaveApp"/>
 	<SettingItem :icon="LOGO.socials.github" name="Github | Web Wallet" description="Source code" to="https://github.com/jfbeats/ArweaveWebWallet"/>
-	<SettingItem :icon="LOGO.socials.github" name="Github | Wallet Connector" description="Integrate the universal connector to use web wallets like arweave.app inside your own applications" to="https://jfbeats.github.io/ArweaveWalletConnector"/>
+	<SettingItem :icon="LOGO.socials.github" name="Github | Wallet Connector" description="Integrate the universal connector to use web wallets like wallet.chivesweave.org inside your own applications" to="https://jfbeats.github.io/ArweaveWalletConnector"/>
 	<SettingItem :icon="ICON.text" name="Arwiki" description="Wiki on the Arweave protocol" to="https://arwiki.wiki"/>
 </template>
 

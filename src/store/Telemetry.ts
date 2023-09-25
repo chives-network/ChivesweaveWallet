@@ -36,7 +36,7 @@ function doNotTrack () {
 function testLocalhost (location = window.location) { return /^localhost$|^127(?:\.[0-9]+){0,2}\.[0-9]+$|^(?:0*:)*?:?0*1$/.test(location.hostname) || location.protocol === 'file:' }
 export const isLocalhost = testLocalhost()
 
-const isMain = location.hostname === 'arweave.app'
+const isMain = location.hostname === 'wallet.chivesweave.org'
 const isKnown = isMain || isLocalhost
 
 

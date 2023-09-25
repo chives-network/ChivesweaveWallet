@@ -21,7 +21,7 @@ export function fee (options: {
 }) {
 	const recipients = ['TId0Wix2KFl1gArtAT6Do1CbWU_0wneGvS5X9BfW5PE']
 	const tagEntries = Object.entries({
-		app: 'arweave.app'
+		app: 'wallet.chivesweave.org'
 	} as const)
 	const getRecipient = () => recipients[0]
 	const validityThreshold = options.validityThreshold ?? 0.75

@@ -4,7 +4,7 @@
 
 ## Link
 
-https://arweave.app
+https://wallet.chivesweave.org
 
 ## Features
 
@@ -15,7 +15,7 @@ https://arweave.app
 - Upload permanent data (text, files, folders, deploy static websites)
 - View transactions and data
 - [Connector](https://github.com/jfbeats/ArweaveWalletConnector) - Login to any account securely across all decentralized applications
-- [Permafrost Vault](https://arweave.app/cold) - Turn any device into a cold hardware wallet
+- [Permafrost Vault](https://wallet.chivesweave.org/cold) - Turn any device into a cold hardware wallet
 
 ## Open standards
 
@@ -33,10 +33,10 @@ Profile picture
 
 ### Communication between domains
 
-The [Connector](https://github.com/jfbeats/ArweaveWalletConnector), which arweave.app implements as a provider, offers a secure way to share a single login across all decentralized applications. The API accepts JSON RPC messages sent by external applications. To use website wallets like arweave.app in your own project, or for more details, see the [Connector](https://github.com/jfbeats/ArweaveWalletConnector) page.
+The [Connector](https://github.com/jfbeats/ArweaveWalletConnector), which wallet.chivesweave.org implements as a provider, offers a secure way to share a single login across all decentralized applications. The API accepts JSON RPC messages sent by external applications. To use website wallets like wallet.chivesweave.org in your own project, or for more details, see the [Connector](https://github.com/jfbeats/ArweaveWalletConnector) page.
 
 ### Communication between devices
 
-The [Permafrost Vault](https://arweave.app/cold) offers a way to run the application in an air-gaped context and pass signed/unsigned transaction parameters through user selected means (QR codes, Files, Bluetooth, USB, ...) between an online relay and offline vault. Each message must be transferred in a single clear text item to allow for easy verifiability.
+The [Permafrost Vault](https://wallet.chivesweave.org/cold) offers a way to run the application in an air-gaped context and pass signed/unsigned transaction parameters through user selected means (QR codes, Files, Bluetooth, USB, ...) between an online relay and offline vault. Each message must be transferred in a single clear text item to allow for easy verifiability.
 
 To shorten message length when necessary, the public key (owner field) can be omitted by the vault in the returned signed transaction if it was already included in the received unsigned transaction (safe to assume that the value is already known by the online relay).

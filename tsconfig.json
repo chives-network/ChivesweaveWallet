@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"virtual:pwa-register/*": ["node_modules/vite-plugin-pwa/*"]
+		},
+		"target": "esnext",
+		"types": ["vite/client", "vite-plugin-pwa/client"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"importHelpers": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"strict": true,
+		"allowJs": true,
+		"jsx": "preserve",
+		"allowSyntheticDefaultImports": true
+	}
+}

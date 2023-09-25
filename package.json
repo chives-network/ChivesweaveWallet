@@ -1,0 +1,57 @@
+{
+	"name": "arweave-web-wallet",
+	"version": "0.1.0",
+	"homepage": "https://arweave.app",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jfbeats/ArweaveWebWallet"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"buildFile": "vite build --mode file",
+		"serve": "vite build && vite preview",
+		"deploy": "npm run build && arkb deploy dist --wallet ../arweaveWallet.json --use-bundler http://bundler.arweave.net:10000",
+		"deploy-confirm": "npm run build && arkb deploy dist --wallet ../arweaveWallet.json --auto-confirm --use-bundler http://bundler.arweave.net:10000"
+	},
+	"dependencies": {
+		"@ledgerhq/hw-transport-web-ble": "^6.27.1",
+		"@ledgerhq/hw-transport-webhid": "^6.27.1",
+		"@ledgerhq/hw-transport-webusb": "^6.27.1",
+		"@supercharge/promise-pool": "^2.3.0",
+		"@zondax/ledger-arweave": "^1.0.0",
+		"arweave": "^1.10.23",
+		"arweave-graphql": "^0.0.2",
+		"arweave-wallet-connector": "^1.0.2",
+		"axios": "^1.2.3",
+		"bignumber.js": "^9.0.1",
+		"bip39-web-crypto": "^4.0.1",
+		"buffer": "^6.0.3",
+		"file-selector": "^0.6.0",
+		"human-crypto-keys": "^0.1.4",
+		"mitt": "^3.0.0",
+		"mosha-vue-toastify": "^1.0.23",
+		"qr-code-styling": "1.6.0-rc.1",
+		"qr-scanner": "1.4.1",
+		"secrets.js-jf": "^2.0.0",
+		"tippy.js": "^6.3.7",
+		"uuid": "^8.3.2",
+		"vue": "^3.2.47",
+		"vue-router": "^4.0.12",
+		"vue-slicksort": "^2.0.5"
+	},
+	"devDependencies": {
+		"@rollup/plugin-inject": "^5.0.3",
+		"@types/w3c-web-usb": "^1.0.6",
+		"@typescript-eslint/parser": "^5.53.0",
+		"@vitejs/plugin-vue": "^4.0.0",
+		"eslint": "^8.35.0",
+		"eslint-plugin-vue": "^9.9.0",
+		"typescript": "^5.0.2",
+		"vite": "^4.2.0",
+		"vite-plugin-html": "^3.2.0",
+		"vite-plugin-pwa": "^0.14.4",
+		"vite-plugin-singlefile": "^0.13.3",
+		"vite-svg-loader": "^4.0.0"
+	}
+}

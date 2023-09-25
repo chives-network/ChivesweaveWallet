@@ -1,6 +1,6 @@
 # Chivesweave Wallet
 
-![Header image](public/arweaveViewLandscape.svg)
+![Header image](public/chivesViewLandscape.svg)
 
 ## Link
 

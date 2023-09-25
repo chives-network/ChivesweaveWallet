@@ -89,7 +89,7 @@ export function generateManifest (localPaths: string[], transactions: Array<{ id
 			...indexParam,
 			paths,
 		}),
-		tags: [{ name: 'Content-Type', value: 'application/x.arweave-manifest+json' }]
+		tags: [{ name: 'Content-Type', value: 'application/x.chivesweave-manifest+json' }]
 	}
 }
 

@@ -75,7 +75,7 @@ const dataSize = computed(() => isData.value && humanFileSize(props.tx.data?.siz
 const dataType = computed(() => {
 	if (tags.value['bundle-version']) return 'Bundle'
 	if (tags.value['content-type'] === 'text/html') { return 'Website' }
-	if (tags.value['content-type'] === 'application/x.arweave-manifest+json') { return 'Manifest' }
+	if (tags.value['content-type'] === 'application/x.chivesweave-manifest+json') { return 'Manifest' }
 	return tags.value['content-type']?.split('/').join(' ')
 })
 const dataInfo = computed(() => tags.value['app'] || tags.value['application'] || tags.value['app-name'] || tags.value['application-name']

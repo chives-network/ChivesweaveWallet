@@ -1,10 +1,7 @@
 <template>
-	<SettingItem :icon="LOGO.arweave" name="Guide" description="How to get started using the wallet" to="https://docs.arweave.org/info/wallets/arweave-wallet"/>
-	<SettingItem v-if="Wallets.length" :icon="LOGO.socials.discord" name="Discord" description="Send feedback, questions or talk about anything" to="https://discord.gg/W6VybRqwBP"/>
-	<SettingItem :icon="LOGO.socials.twitter" name="Twitter" description="Announcements" to="https://twitter.com/ArweaveApp"/>
-	<SettingItem :icon="LOGO.socials.github" name="Github | Web Wallet" description="Source code" to="https://github.com/jfbeats/ArweaveWebWallet"/>
-	<SettingItem :icon="LOGO.socials.github" name="Github | Wallet Connector" description="Integrate the universal connector to use web wallets like wallet.chivesweave.org inside your own applications" to="https://jfbeats.github.io/ArweaveWalletConnector"/>
-	<SettingItem :icon="ICON.text" name="Arwiki" description="Wiki on the Arweave protocol" to="https://arwiki.wiki"/>
+	<SettingItem :icon="LOGO.arweave" name="Guide" description="How to get started using the wallet" to="https://chivesweave.org/chivesweave-wallet"/>
+	<SettingItem v-if="Wallets.length" :icon="LOGO.socials.discord" name="Discord" description="Send feedback, questions or talk about anything" to="https://discord.gg/8KrtgBRjZn"/>
+	<SettingItem :icon="LOGO.socials.github" name="Github | Web Wallet" description="Source code" to="https://github.com/chives-network/ChivesweaveWallet"/>
 </template>
 
 

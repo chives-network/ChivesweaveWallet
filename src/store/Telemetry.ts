@@ -42,6 +42,7 @@ const isKnown = isMain || isLocalhost
 
 
 function init () {
+	return []
 	const {
 		screen: { width, height },
 		navigator: { language },

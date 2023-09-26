@@ -12,7 +12,7 @@ export default (env: any): Partial<VitePWAOptions> => ({
 		start_url: '/',
 		icons: [
 			{
-				src: 'arweave.svg',
+				src: 'chivesweave.svg',
 				type: 'image/svg+xml',
 				sizes: 'any',
 				purpose: 'monochrome any',

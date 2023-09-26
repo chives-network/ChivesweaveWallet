@@ -141,21 +141,23 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 					if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
 						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['recipients'][0] +'/txsrecord').then(res => res.json().then(res => res)).catch(() => {})
 						fulfilled = true
-						console.log("getQueryManager results 2 ",results)
+						console.log("getQueryManager recipients 2 ",results)
 						list.add(results)
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners']) {
 						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/txsrecord').then(res => res.json().then(res => res)).catch(() => {})
 						fulfilled = true
-						console.log("getQueryManager results 2 ",results)
+						console.log("getQueryManager owners 2 ",results)
 						list.add(results)
 					}
+					status.completed = true; 
+					fulfilled = true;
 					//;({ results, fulfilled } = processResponse(await graphql.getTransactions(i === 0 && firstFetch ? optionsRef.value : { ...optionsRef.value, after: list.state.value[list.state.value.length - 1].cursor })))
 					//if (results[results.length - 1]?.block) { fulfilled = true }	
 				}
 				if (firstFetch) { setTimeout(() => refreshEnabled.value = true, refresh * 1000) }
 			}
-			catch (e) { console.error(e); await new Promise<void>(res => setTimeout(() => res(), 10000)); throw e }
+			catch (e) { console.error("Error getQueryManager 158",e); await new Promise<void>(res => setTimeout(() => res(), 10000)); throw e }
 			console.log("getQueryManager results getQueryManager ",results)
 			return results
 		},
@@ -170,17 +172,35 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 			let fulfilled = false
 			let results = undefined as undefined | TransactionEdge[]
 			for (let i = 0; !fulfilled; i++) {
-				console.log("getAsyncData161",i)
-				if (i === 0) { ;({ results, fulfilled } = processResponse(await graphql.getTransactions(optionsRef.value))) }
-				else if (!results) { return }
-				else { ;({ results, fulfilled } = processResponse(await graphql.getTransactions({ ...optionsRef.value, after: results[results.length - 1].cursor }))) }
-				for (const result of results) {
-					const matchingTx = list.state.value.find(el => el.id === result.id)
-					if (matchingTx) {
-						if (matchingTx.block) { fulfilled = true }
-						else if (result.block) { removeContent.push(matchingTx); addContent.push(result) }
-					} else { addContent.push(result) }
+				console.log("getAsyncData161______",optionsRef.value)
+				if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
+					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['recipients'][0] +'/txsrecord').then(res => res.json().then(res => res)).catch(() => {})
+					fulfilled = true
+					console.log("getAsyncData161______ recipients 2 ",results)
+					for (const result of results) {
+						addContent.push(result)
+					}
 				}
+				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners']) {
+					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/txsrecord').then(res => res.json().then(res => res)).catch(() => {})
+					fulfilled = true
+					console.log("getAsyncData161______ owners 2 ",results)
+					for (const result of results) {
+						addContent.push(result)
+					}
+				}
+				status.completed = true; 
+				fulfilled = true;
+				//if (i === 0) { ;({ results, fulfilled } = processResponse(await graphql.getTransactions(optionsRef.value))) }
+				//else if (!results) { return }
+				//else { ;({ results, fulfilled } = processResponse(await graphql.getTransactions({ ...optionsRef.value, after: results[results.length - 1].cursor }))) }
+				//for (const result of results) {
+				//	const matchingTx = list.state.value.find(el => el.id === result.id)
+				//	if (matchingTx) {
+				//		if (matchingTx.block) { fulfilled = true }
+				//		else if (result.block) { removeContent.push(matchingTx); addContent.push(result) }
+				//	} else { addContent.push(result) }
+				//}
 			}
 			list.remove(removeContent)
 			list.add(addContent)

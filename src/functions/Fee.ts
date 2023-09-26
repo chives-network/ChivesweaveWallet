@@ -42,14 +42,14 @@ export function fee (options: {
 		queryParams.value!.owners = value
 		setTimeout(() => query.fetchAll()) // todo fix setTimeout requirement
 	}, { immediate: true })
-	const txs = computed(() => query.state.value?.filter(tx => +tx.node.quantity.ar > 0 && tx.node.recipient === getRecipient()) ?? [])
-	const owners = computed(() => addresses.value.map(address => txs.value.filter(tx => tx.node.owner.address === address)))
+	const txs = computed(() => query.state.value?.filter(tx => +tx.quantity.ar > 0 && tx.recipient === getRecipient()) ?? [])
+	const owners = computed(() => addresses.value.map(address => txs.value.filter(tx => tx.owner.address === address)))
 	const states = computed(() => compact(owners.value.map((txs, i) => {
 		if (!txs.length) { return }
-		const batchOwner = txs[0].node.owner.address
+		const batchOwner = txs[0].owner.address
 		let balance = new BigNumber(getWalletById(batchOwner)?.balance ?? '0')
-		const settled = BigNumber.sum(0, ...txs.filter(tx => tx.node.block?.id).map(tx => tx.node.quantity.ar))
-		const pending = BigNumber.sum(0, ...txs.filter(tx => !tx.node.block?.id).map(tx => tx.node.quantity.ar))
+		const settled = BigNumber.sum(0, ...txs.filter(tx => tx.block?.id).map(tx => tx.quantity.ar))
+		const pending = BigNumber.sum(0, ...txs.filter(tx => !tx.block?.id).map(tx => tx.quantity.ar))
 		if (!ar.value || balance.minus(pending).isLessThan(dustThreshold)) { return }
 		const ratio = settled.plus(pending).div(ar.value).toString() || '0'
 		const hasPaid = new BigNumber(ratio).times(ar.value)
@@ -57,12 +57,12 @@ export function fee (options: {
 	})))
 	const asyncStates = useDataWrapper(states, i => i?.batchOwner ?? '' + i.i, async ({ txs }) => {
 		const entries = compact(await Promise.all(txs?.map(async tx => {
-			if (!tx.node.block) { return }
-			return { tx, price: await arPriceAtHeight(tx.node.block?.height, options.byteSize) }
+			if (!tx.block) { return }
+			return { tx, price: await arPriceAtHeight(tx.block?.height, options.byteSize) }
 		}) ?? []))
 		return compact(entries.map(({ tx, price }) => {
 			if (!ar.value) { return }
-			const ratio = new BigNumber(tx.node.quantity.ar).div(price).toString()
+			const ratio = new BigNumber(tx.quantity.ar).div(price).toString()
 			const hasPaid = new BigNumber(ratio).times(ar.value).toString()
 			return { ratio, hasPaid }
 		}))
@@ -106,9 +106,9 @@ const storagePriceCache = useChannel('storagePrice', '', {}).state
 async function arPriceAtHeight (height: string | number, byteSize: string | number) {
 	const fetch = async () => {
 		const query = arweaveQuery({ block: { min: +height }, sort: SortOrder.HeightAsc, bundledIn: undefined, first: 100 })
-		const computedQuery = () => query.state.value?.filter(tx => !tx.node.bundledIn && tx.node.data.size !== '0') ?? []
+		const computedQuery = () => query.state.value?.filter(tx => !tx.bundledIn && tx.data.size !== '0') ?? []
 		while (!query.status.completed && computedQuery().length < 20) { await query.fetchQuery.query() }
-		const results = computedQuery().map(tx => new BigNumber(tx.node.fee.winston).div(Math.max(parseInt(tx.node.data.size), 256000)))
+		const results = computedQuery().map(tx => new BigNumber(tx.fee.winston).div(Math.max(parseInt(tx.data.size), 256000)))
 		const res = BigNumber.min(...results).toString()
 		storagePriceCache.value[height] = res
 		return res

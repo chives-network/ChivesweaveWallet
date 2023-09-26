@@ -48,10 +48,10 @@ export async function deduplicate (transactions: ArDataItemParams[], trustedAddr
 		const query = await arweaveQuery({ tags: { name: 'File-Hash', values: hashes }, first: 100 }).fetchAll()
 		return (await PromisePool.for(chunk).withConcurrency(3).process(async entry => {
 			const result = query.value
-				.filter(tx => tx.node.tags.find(tag => tag.name === 'File-Hash' && tag.value === entry.hash))
-				.filter(tx => !entry.tx.tags || hasMatchingTags(entry.tx.tags, tx.node.tags))
+				.filter(tx => tx.tags.find(tag => tag.name === 'File-Hash' && tag.value === entry.hash))
+				.filter(tx => !entry.tx.tags || hasMatchingTags(entry.tx.tags, tx.tags))
 			for (const tx of result) {
-				const verified = trustedAddresses ? trustedAddresses.includes(tx.node.owner.address) : await verifyData(entry.hash, tx.node.id)
+				const verified = trustedAddresses ? trustedAddresses.includes(tx.owner.address) : await verifyData(entry.hash, tx.id)
 				if (verified) { return tx }
 			}
 		})).results

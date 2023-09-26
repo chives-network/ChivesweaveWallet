@@ -1,7 +1,7 @@
 <template>
 	<div class="list flex-column">
 		<transition-group name="fade-list-rise">
-			<component v-for="tx in txs" :tx="tx.node" :key="tx.node.id" :is="component" v-bind="componentProps" class="fade-list-item" :class="[card && 'card']" />
+			<component v-for="tx in txs" :tx="tx" :key="tx.id" :is="component" v-bind="componentProps" class="fade-list-item" :class="[card && 'card']" />
 		</transition-group>
 		<LoaderBlock v-if="icon" :icon="icon" />
 		<Observer @intersection="val => val.isIntersecting && fetchQuery()" class="bottom" v-show="!fetchLoading && !completedQuery" />

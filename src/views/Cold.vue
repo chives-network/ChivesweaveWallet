@@ -44,7 +44,7 @@
 					<div>Get lifetime access to the Permafrost Vault for an unlimited number of accounts and devices for {{ humanFileSize(byteSize) }} worth of arweave storage (<Amount :ar="feeManager.ar"> | </Amount>).</div>
 					<Button v-bind="feeAction" :glow="true">{{ feeAction.name }}</Button>
 					<div class="cards flex-column">
-						<TxCard v-for="tx in feeManager.txs" :tx="tx.node" />
+						<TxCard v-for="tx in feeManager.txs" :tx="tx" />
 					</div>
 				</div>
 			</div>

@@ -18,9 +18,11 @@ function getConversion () {
 			const provider = settings.provider
 			if (provider === 'redstone') {
 				if (currency === 'USD') {
+					return 0.1
 					const result = await axios.get('https://api.redstone.finance/prices/?symbols=AR&provider=redstone')
 					return result.data['AR'].value
 				} else {
+					return 0.1
 					const result = await axios.get('https://api.redstone.finance/prices/?symbols=AR,' + currency + '&provider=redstone')
 					return result.data['AR'].value / result.data[currency!].value
 				}
@@ -40,13 +42,13 @@ export const { state: redstoneOptions } = getAsyncData({
 	query: async () => {
 		type currencyOptions = { value: { currency: string, provider: string }, text: string }[]
 		const options = [] as currencyOptions
-		const res = (await axios.get('https://api.redstone.finance/configs/tokens')).data
+		//const res = (await axios.get('https://api.redstone.finance/configs/tokens')).data
 		const message = ' Redstone Finance'
 		options.push({ value: { currency: 'USD', provider: 'redstone' }, text: 'USD' + message })
-		for (const key in res) {
-			try { new Intl.NumberFormat([...navigator.languages], { style: 'currency', currency: key }) } catch (e) { continue }
-			if (res[key].tags?.includes('currencies')) { options.push({ value: { currency: key, provider: 'redstone' }, text: key + message }) }
-		}
+		//for (const key in res) {
+		//	try { new Intl.NumberFormat([...navigator.languages], { style: 'currency', currency: key }) } catch (e) { continue }
+		//	if (res[key].tags?.includes('currencies')) { options.push({ value: { currency: key, provider: 'redstone' }, text: key + message }) }
+		//}
 		return options
 	},
 	seconds: 86400,

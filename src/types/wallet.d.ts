@@ -28,6 +28,7 @@ interface Account {
 	metadata: DisplayMetadata
 	key?: string
 	balance?: string
+	reserved_rewards_total?: string
 	queries: { query: any, name: string, color: string }[]
 	queryBalance: any
 	destructor?: () => any

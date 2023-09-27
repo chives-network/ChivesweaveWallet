@@ -13,12 +13,12 @@
 						<LocaleCurrency :ar="wallet.balance" />
 					</div>
 				</div>
-				<div v-if="mining" style="flex: 1 1 auto; opacity: 0.75;">
+				<div v-if="wallet.reserved_rewards_total" style="flex: 1 1 auto; opacity: 0.75;">
 					<div class="flex-row big">
-						<Ar :winston="mining" />
+						<Ar :winston="wallet.reserved_rewards_total" />
 					</div>
 					<div>
-						<LocaleCurrency :winston="mining" />
+						<LocaleCurrency :winston="wallet.reserved_rewards_total" />
 					</div>
 				</div>
 			</div>

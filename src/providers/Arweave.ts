@@ -85,8 +85,15 @@ export class ArweaveAccount extends Emitter implements Account {
 		query: async () => arweave.ar.winstonToAr(await arweave.wallets.getBalance(this.key!)),
 		seconds: 600,
 	})
+	reserved_rewards_total_Balance = getAsyncData({
+		name: 'reserved_rewards_total',
+		awaitEffect: () => this.key,
+		query: async () => await fetch(ArweaveStore.gatewayURL+'/wallet/'+ this.key +'/reserved_rewards_total').then(res => res.json().then(res => res)).catch(() => {}),
+		seconds: 600,
+	})
 	get key () { return this.#key.value }
 	get balance () { return this.queryBalance.state.value }
+	get reserved_rewards_total () { console.log("this.reserved_rewards_total_Balance.state.value",this.reserved_rewards_total_Balance.state.value); return this.reserved_rewards_total_Balance.state.value }
 	queries
 }
 

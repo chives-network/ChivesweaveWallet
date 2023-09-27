@@ -42,8 +42,8 @@ const searchAction = computed(() => ({ run: () => {}, icon: !subSearch.value.len
 
 const wallet = computed(() => isId.value && userTxQuery?.state?.value?.length && getAccountByAddress(search.value))
 const getUserTxQuery = () => [
-	arweaveQuery(computed(() => ({ owners: [search.value] })), 'global search user'),
-	arweaveQuery(computed(() => ({ recipients: [search.value] })), 'global search user'),
+	arweaveQuery(computed(() => ({ owners: [search.value] })), 'global search user for owners'),
+	arweaveQuery(computed(() => ({ recipients: [search.value] })), 'global search user for recipients'),
 ]
 const getIdTxQuery = () => [
 	arweaveQuery(computed(() => ({ ids: [search.value] })), 'global search id'),

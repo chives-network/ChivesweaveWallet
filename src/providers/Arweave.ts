@@ -62,13 +62,15 @@ const providerMetadata: ProviderMetadata = {
 export class ArweaveAccount extends Emitter implements Account {
 	constructor (private init: string | WalletDataInterface) {
 		super()
-		const received = arweaveQuery(computed(() => (this.key ? { recipients: [this.key] } : undefined)))
-		const sent = arweaveQuery(computed(() => (this.key ? { owners: [this.key] } : undefined)))
+		const received = arweaveQuery(computed(() => (this.key ? { recipients: [this.key], 'type':'received' } : undefined)))
+		const sent = arweaveQuery(computed(() => (this.key ? { owners: [this.key], 'type':'sent' } : undefined)))
+		const files = arweaveQuery(computed(() => (this.key ? { owners: [this.key], 'type':'files' } : undefined)))
 		const all = queryAggregator([received, sent])
 		this.queries = [
 			{ query: all, name: 'All', color: 'var(--orange)' }, // todo name and color in metadata object
 			{ query: received, name: 'Received', color: 'var(--green)' },
 			{ query: sent, name: 'Sent', color: 'var(--red)' },
+			{ query: files, name: 'Files', color: 'var(--blue)' },
 		]
 		received.list.emitter.on('add', () => this.queryBalance.getState(true))
 		sent.list.emitter.on('add', () => this.queryBalance.getState(true))

@@ -49,7 +49,7 @@
 								</div>
 								<div>{{ date }}</div>
 								<div class="spacer" />
-								<div class="secondary-text"><Address :block="tx.block.id">ID:&nbsp;</Address></div>
+								<div class="secondary-text"><Address :block="tx.block.indep_hash">ID:&nbsp;</Address></div>
 							</div>
 		
 							<div>
@@ -57,7 +57,7 @@
 								<div>Size: {{ humanFileSize(tx.data.size) }}</div>
 								<div>
 									Fee:
-									<Amount :ar="tx.fee.ar" />
+									<Amount :ar="tx.fee.xwe" />
 								</div>
 							</div>
 						</div>

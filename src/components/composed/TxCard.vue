@@ -1,7 +1,7 @@
 <template>
 	<div class="tx-card no-scrollbar" :class="{ verticalElement }">
 		<div class="tx-content" :class="{ 'flex-row': !verticalElement, 'flex-column': verticalElement }">
-			<Link class="left reset" :to="(tx.id && !options?.half) ? { name: 'Tx', params: { txId: tx.id } } : ''">
+			<Link class="left reset" :to="(tx.id && !options?.half) ? { name: 'Tx', params: { txId: tx.id, tx: tx } } : ''">
 				<TxIcon class="tx-icon" :tx="tx" :options="{ isData, isValue, direction, status }" />
 				<div class="margin" />
 				<div>
@@ -18,7 +18,7 @@
 						<div v-else-if="dataSize" class="secondary-text ellipsis">Size: {{ dataSize }}</div>
 						<div class="secondary-text ellipsis">
 							<template v-if="statusText">{{ statusText }}</template>
-							<template v-else-if="options?.space">Fee: <Amount :ar="tx.fee.ar" /></template>
+							<template v-else-if="options?.space">Fee: <Amount :ar="tx.fee.xwe" /></template>
 							<Date v-else-if="timestamp" :timestamp="timestamp" />
 						</div>
 					</div>

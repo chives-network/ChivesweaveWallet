@@ -68,7 +68,9 @@ export function useWatchTx (txId: Ref<string | undefined>) {
 	return getReactiveAsyncData({
 		name: 'single tx header',
 		params: txId,
-		query: async (txId) => (await graphql.getTransactions({ ids: [txId] })).transactions.edges[0]?.node,
+		query: async (txId) => (
+			await fetch(ArweaveStore.gatewayURL+'/wallet/'+ txId +'/txrecord').then(res => res.json().then(res => res)).catch(() => {})
+		),
 		completed: (state: any) => state?.block,
 		seconds: 10,
 	})
@@ -139,15 +141,21 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 				for (let i = 0; !fulfilled; i++) {
 					console.log("getQueryManager results 1 ", optionsRef.value)
 					if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
-						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['recipients'][0] +'/txsrecord').then(res => res.json().then(res => res)).catch(() => {})
+						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['recipients'][0] +'/deposits').then(res => res.json().then(res => res)).catch(() => {})
 						fulfilled = true
 						console.log("getQueryManager recipients 2 ",results)
 						list.add(results)
 					}
-					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners']) {
-						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/txsrecord').then(res => res.json().then(res => res)).catch(() => {})
+					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='sent') {
+						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/send').then(res => res.json().then(res => res)).catch(() => {})
 						fulfilled = true
 						console.log("getQueryManager owners 2 ",results)
+						list.add(results)
+					}
+					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='files') {
+						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/datarecord').then(res => res.json().then(res => res)).catch(() => {})
+						fulfilled = true
+						console.log("getQueryManager creators 2 ",results)
 						list.add(results)
 					}
 					status.completed = true; 
@@ -174,7 +182,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 			for (let i = 0; !fulfilled; i++) {
 				console.log("getAsyncData161______",optionsRef.value)
 				if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
-					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['recipients'][0] +'/txsrecord').then(res => res.json().then(res => res)).catch(() => {})
+					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['recipients'][0] +'/deposits').then(res => res.json().then(res => res)).catch(() => {})
 					fulfilled = true
 					console.log("getAsyncData161______ recipients 2 ",results)
 					for (const result of results) {
@@ -182,7 +190,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 					}
 				}
 				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners']) {
-					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/txsrecord').then(res => res.json().then(res => res)).catch(() => {})
+					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/send').then(res => res.json().then(res => res)).catch(() => {})
 					fulfilled = true
 					console.log("getAsyncData161______ owners 2 ",results)
 					for (const result of results) {

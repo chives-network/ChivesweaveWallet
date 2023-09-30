@@ -5,12 +5,12 @@
 				<div class="flex-row" style="align-items: center; justify-content: space-between; flex-wrap: wrap;">
 					<h2 class="flex-row" style="align-items: center;">
 						<Icon :icon="ICON.cube" style="font-size: 1.5em; color: var(--orange);" />
-						<span>Block {{ block.node.height }}</span>
+						<span>Block {{ block.height }}</span>
 					</h2>
 					<TransitionsManager>
-						<div v-if="blockData" style="text-align: end; flex: 1 1 auto;">
-							<div>{{ blockData.txs?.length }} Transactions | {{ humanFileSize(blockData.block_size) }}</div>
-							<div><Date :timestamp="blockData.timestamp * 1000" /></div>
+						<div v-if="block" style="text-align: end; flex: 1 1 auto;">
+							<div>{{ block.txs_length }} Transactions | {{ humanFileSize(block.block_size) }}</div>
+							<div><Date :timestamp="block.timestamp * 1000" /></div>
 						</div>
 					</TransitionsManager>
 				</div>
@@ -43,11 +43,11 @@ import { getAsyncData } from '@/functions/AsyncData'
 const props = defineProps<{ block: any }>()
 
 const visible = ref(false)
-const txsQuery = arweaveQuery({ block: { min: props.block.node.height, max: props.block.node.height } })
+const txsQuery = arweaveQuery({ block: { min: props.block.height, max: props.block.height } })
 const blockData = getAsyncData({
 	name: 'single block header',
 	awaitEffect: () => visible.value,
-	query: async () => arweave.blocks.get(props.block.node.id),
+	query: async () => arweave.blocks.get(props.block.indep_hash),
 	seconds: 10,
 	completed: state => state
 }).state

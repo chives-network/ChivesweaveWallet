@@ -11,8 +11,7 @@ import InterfaceStore from '@/store/InterfaceStore'
 import { makeRef, useList } from '@/functions/UtilsVue'
 
 
-
-export const gatewayDefault = 'http://172.18.240.39:1985/'
+export const gatewayDefault = 'http://10.0.0.198:1985/'
 export const bundlerDefault = 'https://node2.bundlr.network/'
 
 if (localStorage.getItem('gateway') === JSON.stringify(gatewayDefault)) { localStorage.removeItem('gateway') } // todo remove, temp conversion
@@ -105,6 +104,9 @@ type arweaveQueryOptions = Parameters<typeof graphql['getTransactions']>[0] | Re
 export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { // todo rename to arweaveTransactions, fix changing query while loading
 	const optionsRef = isRef(options) ? options : ref(options)
 	const status = reactive({ completed: false, reset: 0 })
+
+	console.log("options options options ",options)
+
 	const list = useList<TransactionEdge>({
 		key: a => a.id,
 		sort: blockSort, // todo use txSort
@@ -244,13 +246,12 @@ export function arweaveQueryBlocks (options: Parameters<typeof graphql['getBlock
 			if (status.completed) { return data.value }
 			let results: any
 			try {
-				const cursor = data.value[data.value.length - 1]?.cursor
-				if (!cursor) { results = await graphql.getBlocks(options) }
-				else { results = await graphql.getBlocks({ ...options, after: cursor }) }
-				if (!results.blocks.pageInfo.hasNextPage) { status.completed = true }
-				results = results.blocks.edges
-				if (results.length < 10) { status.completed = true } // todo remove??
-				if (!data.value.length) { setTimeout(() => refreshEnabled.value = true, refresh * 1000) }
+				const res = await networkInfoData.getState()
+				const height = res?.height
+				const fromHeight = Math.floor(Number(height)/100)
+				const url = ArweaveStore.gatewayURL+'/blocklist/'+ fromHeight +'/100'
+				results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
+				status.completed = true
 				data.value.push(...results)
 			} catch (e) { console.error(e); await new Promise<void>(res => setTimeout(() => res(), 10000)) }
 		},
@@ -260,8 +261,11 @@ export function arweaveQueryBlocks (options: Parameters<typeof graphql['getBlock
 		name: 'block list update',
 		awaitEffect: () => !fetchQuery.queryStatus.running && refreshEnabled.value,
 		query: async () => {
-			let results = (await graphql.getBlocks({ ...options, height: { min: data.value[0].height + 1 }, sort: SortOrder.HeightAsc })).blocks.edges
-			if (results.length > 0) { data.value.splice(0, 0, ...results.reverse()) }
+			const res = await networkInfoData.getState()
+			const height = res?.height
+			const fromHeight = Math.floor(Number(height)/100)
+			const url = ArweaveStore.gatewayURL+'/blocklist/'+ fromHeight +'/100'
+			const results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
 			return results
 		},
 		seconds: refresh,
@@ -415,7 +419,6 @@ export function queryAggregator (queries: RefMaybe<ReturnType<typeof arweaveQuer
 // }
 
 
-
 const networkInfoData = getAsyncData({
 	name: 'network info',
 	query: () => arweave.network.getInfo(),
@@ -463,7 +466,7 @@ async function loadGatewaySettings () {
 				body: `${new URL(gatewayDefault).hostname} may be blocked by your internet service provider or is temporarily unavailable`,
 				requireInteraction: true,
 			})
-			const fallbackReachable = await updateArweave('https://ar-io.net/').catch(() => false)
+			const fallbackReachable = await updateArweave('https://node2.chivesweave.net').catch(() => false)
 			return fallbackReachable
 		})
 		if (isReachable) { state.value = Date.now() }

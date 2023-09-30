@@ -1,7 +1,7 @@
 <template>
 	<div class="block-carousel">
 		<Carousel :index="index" :options="{ align: 'center', overscroll: true, immediate: true }" @start="start" @end="end" class="block-carousel">
-			<div v-for="block in state" :key="block.node.id" class="block fade-list-item">
+			<div v-for="block in state" :key="block.indep_hash" class="block fade-list-item">
 				<BlockCard :block="block" class="box" />
 			</div>
 			<div v-if="canMine && state.length" class="block fade-list-item box flex-column" style="align-items: center; justify-content: center">

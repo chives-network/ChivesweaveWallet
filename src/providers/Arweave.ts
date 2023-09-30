@@ -93,7 +93,7 @@ export class ArweaveAccount extends Emitter implements Account {
 	})
 	get key () { return this.#key.value }
 	get balance () { return this.queryBalance.state.value }
-	get reserved_rewards_total () { console.log("this.reserved_rewards_total_Balance.state.value",this.reserved_rewards_total_Balance.state.value); return this.reserved_rewards_total_Balance.state.value }
+	get reserved_rewards_total () { return this.reserved_rewards_total_Balance.state.value }
 	queries
 }
 

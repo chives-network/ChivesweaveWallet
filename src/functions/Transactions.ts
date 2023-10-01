@@ -97,7 +97,16 @@ export function generateManifest (localPaths: string[], transactions: Array<{ id
 
 export async function manageUpload (tx: AnyTransaction) {
 	if (!InterfaceStore.online) { return requestExport({ tx }) }
-	if (!tx.chunks?.chunks?.length) { arweave.transactions.post(tx); notify.log('Transaction sent'); return }
+	if (!tx.chunks?.chunks?.length) { 
+		const txResult = await arweave.transactions.post(tx); 
+		if(txResult.status==200) {
+			notify.log('Transaction sent');
+		}
+		else if(txResult.status==400) {
+			notify.error(txResult.statusText); 
+		}
+		return 
+	}
 	const uploader = await arweave.transactions.getUploader(tx)
 	const storageKey = 'uploader:' + tx.id
 	localStorage.setItem(storageKey, JSON.stringify(uploader))

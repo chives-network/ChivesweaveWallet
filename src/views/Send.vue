@@ -150,6 +150,9 @@ function isValid () {
 	if (!form.target.length && quantity.gt(0)) {
 		validation.target = "An address must be specified to send XWE"; result = false
 	}
+	if (form.target == props.wallet.key) {
+		validation.target = "Cannot send transactions to youself"; result = false
+	}
 	return result
 }
 

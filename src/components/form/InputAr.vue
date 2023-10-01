@@ -2,7 +2,7 @@
 	<div class="input-ar input-box" :class="{ focus }">
 		<div class="input">
 			<Icon :icon="LOGO.arweave"></Icon>
-			<RawInput v-model="model" inputmode="numeric" class="text" placeholder="AR" @focus="focus = 1" @blur="focus = 0" :disabled="disabled" :id="id" />
+			<RawInput v-model="model" inputmode="numeric" class="text" placeholder="XWE" @focus="focus = 1" @blur="focus = 0" :disabled="disabled" :id="id" />
 		</div>
 		<div v-if="currentPrice" class="spacer"></div>
 		<div v-if="currentPrice" class="input">

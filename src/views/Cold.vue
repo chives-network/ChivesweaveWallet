@@ -90,7 +90,7 @@ const feeRoute = async () => {
 const feeAction = computed(() => ({
 	run: feeRoute,
 	name: feeManager.isPaid ? 'Paid'
-		: feeManager.txs.length ? `Pay remaining ${round(feeManager.remaining)} AR`
+		: feeManager.txs.length ? `Pay remaining ${round(feeManager.remaining)} XWE`
 			: feeManager.isPaying ? 'Loading' : 'Pay',
 }))
 const lastPage = computed(() => feeManager.isPaid || coldState.value?.status)

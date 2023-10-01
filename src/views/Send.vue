@@ -148,7 +148,7 @@ function isValid () {
 		validation.target = "Invalid address"; result = false
 	}
 	if (!form.target.length && quantity.gt(0)) {
-		validation.target = "An address must be specified to send AR"; result = false
+		validation.target = "An address must be specified to send XWE"; result = false
 	}
 	return result
 }

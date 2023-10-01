@@ -64,7 +64,7 @@ import OverlayPrompt from '@/components/layout/OverlayPrompt.vue'
 import Viewport from '@/components/layout/Viewport.vue'
 import WalletSelector from '@/components/composed/WalletSelector.vue'
 import { hardwareProviders, addAddress, addMnemonic, generateMnemonic, validateMnemonic } from '@/functions/Wallets'
-import { track } from '@/store/Telemetry'
+
 import { notify } from '@/store/NotificationStore'
 import { computed, ref } from 'vue'
 import { useRouter } from '@/router'
@@ -85,7 +85,7 @@ const create = async () => {
 	passphraseInput.value = await generateMnemonic()
 	const walletData = addMnemonic(passphraseInput.value)
 	setTimeout(async () => createdWallet.value = await walletData, 10000)
-	track.account('Account Create')
+	//track.account('Account Create')
 }
 const goToCreatedWallet = () => {
 	if (!createdWallet.value) { return }
@@ -99,7 +99,7 @@ const importPassphrase = async () => {
 		message: 'importing',
 	}
 	router.push({ name: 'EditWallet', query: { wallet: (await walletData).id } })
-	track.account('Account Import')
+	//track.account('Account Import')
 }
 const confirmPassphrase = async () => {
 	if (await validateMnemonic(passphraseInput.value)) { return importPassphrase() }
@@ -115,13 +115,13 @@ const importProvider = async (provider: AnyProvider) => {
 	try {
 		const walletData = await addAddress(undefined, provider)
 		router.push({ name: 'EditWallet', query: { wallet: walletData.id } })
-		track.account('Account Ledger')
+		//track.account('Account Ledger')
 	} catch (e: any) { console.error(e); notify.error(e.message || e) }
 }
 const importAddressOnlyAction = { icon: ICON.addBox, run: async () => {
 	const walletData = await addAddress(targetInput.value)
 	router.push({ name: 'EditWallet', query: { wallet: walletData.id } })
-	track.account('Account Watch')
+	//track.account('Account Watch')
 }}
 const activeSettings = ref(-1)
 const coldWalletAction = computed(() => getColdWalletAction(false))

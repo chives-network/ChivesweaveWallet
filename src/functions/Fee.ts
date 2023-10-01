@@ -91,9 +91,9 @@ export function fee (options: {
 		})?.id
 		if (walletId == undefined) { notify.log('Fund and select a wallet to transfer tokens') }
 		if (state.channel.state.value) { state.channel.state.value.walletId = walletId }
-		track.event('Fee', options.name)
+		//track.event('Fee', options.name)
 		const signedTx = await RPC.arweave.signTransaction(tx)
-		track.event('Fee Paid', options.name)
+		//track.event('Fee Paid', options.name)
 		isPaying.value = true
 		manageUpload(signedTx)
 		return signedTx.id

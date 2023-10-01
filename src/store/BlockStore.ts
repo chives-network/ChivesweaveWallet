@@ -1,12 +1,8 @@
-import ArweaveStore, { graphql } from '@/store/ArweaveStore'
-import type { Transaction as GQLTransaction } from 'arweave-graphql'
+import ArweaveStore from '@/store/ArweaveStore'
 
-import InterfaceStore from '@/store/InterfaceStore'
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 import axios from 'axios'
-import { awaitEffect, getAsyncData } from '@/functions/AsyncData'
-
-
+import { getAsyncData } from '@/functions/AsyncData'
 
 const BlockStore = reactive({
 	currentHeight: null,
@@ -20,7 +16,6 @@ const BlockStore = reactive({
 })
 
 export default BlockStore
-
 
 
 const pendingListData = getAsyncData({

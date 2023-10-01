@@ -4,7 +4,6 @@ import '@/assets/animations.css'
 import '@/pwa'
 import '@/functions/File'
 import '@/store/Cold'
-import '@/store/Telemetry'
 
 import { createApp } from 'vue'
 import App from './App.vue'

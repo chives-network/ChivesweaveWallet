@@ -1,6 +1,5 @@
 import Arweave from 'arweave'
 import type { BlockEdge, GetTransactionsQuery, Transaction, TransactionEdge } from 'arweave-graphql'
-import arweaveGraphql, { SortOrder } from 'arweave-graphql'
 import { compact, generateUrl } from '@/functions/Utils'
 import { useChannel } from '@/functions/Channels'
 import { getAsyncData, getQueryManager, getReactiveAsyncData, useDataWrapper } from '@/functions/AsyncData'
@@ -25,7 +24,6 @@ const ArweaveStore = reactive({
 
 export default ArweaveStore
 export var arweave: Arweave
-export var graphql: ReturnType<typeof arweaveGraphql>
 
 
 
@@ -42,10 +40,7 @@ export async function updateArweave (url?: string, sync?: boolean): Promise<true
 	const settings = urlToSettings(url)
 	if (!sync && url !== gatewayDefault) { await testGateway(settings) }
 	arweave = Arweave.init(settings)
-	//graphql = arweaveGraphql(url + 'graphql')
-	//ArweaveStore.gatewayURL = url !== gatewayDefault ? url : undefined as any
 	return true
-	// todo if network name is different, clear all cache
 }
 
 async function testGateway (settings: ReturnType<typeof urlToSettings> | string): Promise<true> {
@@ -110,7 +105,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 	const list = useList<TransactionEdge>({
 		key: a => a.id,
 		sort: blockSort, // todo use txSort
-		prioritize: (a, b) => a.block && b.block ? blockSort(a, b) : +!!b.block - +!!a.block // todo use txPrioritize and
+		prioritize: (a, b) => a.block && b.block ? blockSort(a, b) : +!!b.block - +!!a.block 
 	})
 	const refresh = 10
 	const refreshEnabled = ref(false)
@@ -282,7 +277,7 @@ export function queryAggregator (queries: RefMaybe<ReturnType<typeof arweaveQuer
 	const list = useList<TransactionEdge>({ // todo generalize
 		key: a => a.id,
 		sort: blockSort, // todo use txSort
-		prioritize: (a, b) => a.block && b.block ? blockSort(a, b) : +!!b.block - +!!a.block // todo use txPrioritize and
+		prioritize: (a, b) => a.block && b.block ? blockSort(a, b) : +!!b.block - +!!a.block 
 	})
 	const refresh = 10
 	const queriesRef = makeRef(queries)
@@ -460,7 +455,7 @@ async function loadGatewaySettings () {
 		const isLocal = await updateArweave(location.origin).catch(() => {})
 		const isReachable = isLocal || await testGateway(gatewayDefault).catch(async e => {
 			const isp = await fetch('http://ip-api.com/json').then(res => res.json().then(res => res?.isp as string)).catch(() => {})
-			track.event('Error', { e, value: gatewayDefault, isp })
+			//track.event('Error', { e, value: gatewayDefault, isp })
 			notify.error({
 				title: `Default gateway is unreachable`,
 				body: `${new URL(gatewayDefault).hostname} may be blocked by your internet service provider or is temporarily unavailable`,

@@ -101,7 +101,7 @@ async function importKeyfiles (keyfiles: string[]) {
 		return addKeyfile(keyfile)
 	}))).filter(e => e !== null).map(e => e.id)
 	if (ids.length > 0) { router.push({ name: 'EditWallet', query: { wallet: ids } }) }
-	track.account('Account Import')
+	//track.account('Account Import')
 }
 
 

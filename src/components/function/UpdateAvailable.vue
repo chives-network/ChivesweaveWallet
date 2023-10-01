@@ -38,7 +38,7 @@ const processUpdate = async () => {
 const triggerUpdate = async (e?: any) => {
 	if (overlay.value) { return }
 	overlay.value = true
-	track.event('App Update')
+	//track.event('App Update')
 	if (!e && state.value.redirect && state.value.url) { sessionStorage.setItem('redirect', state.value.url) }
 	states.value.forEach(s => s.updating = 'scheduled')
 }

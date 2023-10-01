@@ -72,9 +72,12 @@ const statusText = computed(() => {
 })
 const direction = computed(() => props.tx.recipient && props.tx.recipient === props.options?.currentAddress ? 'in' : 'out')
 const relativeAddress = computed(() => direction.value === 'in' ? props.tx.owner.address : (props.tx.recipient))
-const value = computed(() => props.tx.quantity && (props.tx.quantity?.ar || arweave.ar.winstonToAr(props.tx.quantity)))
+const value = computed(() => props.tx.quantity && (props.tx.quantity?.xwe))
 const isValue = computed(() => value.value && parseFloat(value.value) > 0)
 const isData = computed(() => (props.tx.data?.size) > 0)
+console.log("props.options?.currentAddress",props.options)
+console.log("props.tx.recipient",props.tx.recipient)
+console.log("direction",direction.value)
 const status = computed(() => {
 	if (!props.tx.id || !props.tx.block) { return 'pending' }
 	return 'confirmed'

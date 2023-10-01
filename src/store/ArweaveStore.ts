@@ -134,19 +134,19 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 					if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
 						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['recipients'][0] +'/deposits').then(res => res.json().then(res => res)).catch(() => {})
 						fulfilled = true
-						console.log("getQueryManager recipients 2 ",results)
+						console.log("getQueryManager deposits 2 ",results)
 						list.add(results)
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='sent') {
 						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/send').then(res => res.json().then(res => res)).catch(() => {})
 						fulfilled = true
-						console.log("getQueryManager owners 2 ",results)
+						console.log("getQueryManager sent 2 ",results)
 						list.add(results)
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='files') {
 						const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/datarecord').then(res => res.json().then(res => res)).catch(() => {})
 						fulfilled = true
-						console.log("getQueryManager creators 2 ",results)
+						console.log("getQueryManager files 2 ",results)
 						list.add(results)
 					}
 					status.completed = true; 
@@ -175,18 +175,20 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 				if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
 					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['recipients'][0] +'/deposits').then(res => res.json().then(res => res)).catch(() => {})
 					fulfilled = true
-					console.log("getAsyncData161______ recipients 2 ",results)
-					for (const result of results) {
-						addContent.push(result)
-					}
+					console.log("getQueryManager deposits 2 ",results)
+					list.add(results)
 				}
-				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners']) {
+				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='sent') {
 					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/send').then(res => res.json().then(res => res)).catch(() => {})
 					fulfilled = true
-					console.log("getAsyncData161______ owners 2 ",results)
-					for (const result of results) {
-						addContent.push(result)
-					}
+					console.log("getQueryManager sent 2 ",results)
+					list.add(results)
+				}
+				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='files') {
+					const results = await fetch(ArweaveStore.gatewayURL+'/wallet/'+ optionsRef.value['owners'][0] +'/datarecord').then(res => res.json().then(res => res)).catch(() => {})
+					fulfilled = true
+					console.log("getQueryManager files 2 ",results)
+					list.add(results)
 				}
 				status.completed = true; 
 				fulfilled = true;

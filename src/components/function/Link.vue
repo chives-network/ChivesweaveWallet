@@ -13,9 +13,7 @@ import { onMounted, ref, useAttrs } from 'vue'
 
 const props = defineProps<{
 	onClick?: (e?: MouseEvent) => any
-	href?: ''
-	
-	// Todo type action
+	href?: ''	
 	name?: string
 	icon?: Icon
 	color?: string

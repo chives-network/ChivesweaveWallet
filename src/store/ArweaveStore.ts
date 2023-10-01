@@ -91,17 +91,11 @@ const txPrioritize = (a: Transaction, b: Transaction) => a.block && b.block ? tx
 const blockSort = (a: TransactionEdge, b: TransactionEdge) => (b.block?.height ?? Number.MAX_SAFE_INTEGER)
 	- (a.block?.height ?? Number.MAX_SAFE_INTEGER)
 
-
-
-
-type arweaveQueryOptions = Parameters<typeof graphql['getTransactions']>[0] | Ref<Parameters<typeof graphql['getTransactions']>[0]>
+type arweaveQueryOptions = Parameters<any>[0] | Ref<Parameters<any>[0]>
 
 export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { // todo rename to arweaveTransactions, fix changing query while loading
 	const optionsRef = isRef(options) ? options : ref(options)
 	const status = reactive({ completed: false, reset: 0 })
-
-	console.log("options options options ",options)
-
 	const list = useList<TransactionEdge>({
 		key: a => a.id,
 		sort: blockSort, // todo use txSort
@@ -229,7 +223,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 
 
 
-export function arweaveQueryBlocks (options: Parameters<typeof graphql['getBlocks']>[0]) { // todo rename to arweaveBlocks and make reactive
+export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo rename to arweaveBlocks and make reactive
 	const status = reactive({ completed: false })
 	const data = ref([] as BlockEdge[])
 	const refresh = 10

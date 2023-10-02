@@ -10,7 +10,7 @@ import InterfaceStore from '@/store/InterfaceStore'
 import { makeRef, useList } from '@/functions/UtilsVue'
 
 
-export const gatewayDefault = 'http://10.0.0.198:1985/'
+export const gatewayDefault = 'https://api.chivesweave.net/'
 export const bundlerDefault = 'https://node2.bundlr.network/'
 
 if (localStorage.getItem('gateway') === JSON.stringify(gatewayDefault)) { localStorage.removeItem('gateway') } // todo remove, temp conversion

@@ -5,7 +5,7 @@ import { arweave } from '@/store/ArweaveStore'
 
 
 
-type AccountEvent = 'Account Create' | 'Account Import' | 'Account Watch' | 'Account Ledger'
+type AccountEvent = 'Account Create' | 'Account Import' | 'Account Watch'
 type EventType = AccountEvent |
 	'App Install' | 'App Update'
 	| 'Fee' | 'Fee Paid' | 'Affiliate'

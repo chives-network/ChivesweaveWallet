@@ -22,7 +22,7 @@ import { encode } from '@/functions/Encode'
 
 
 const displayMetadata: DisplayMetadata = {
-	name: 'Arweave address',
+	name: 'Chivesweave address',
 	icon: LOGO.Chives
 }
 

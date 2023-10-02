@@ -25,31 +25,6 @@
 			<h2 class="flex-row" style="align-items: center;"><Icon :icon="ICON.snow" /><span>Permafrost Vault</span></h2>
 			<Button v-bind="coldWalletAction" class="main" :glow="true">{{ coldWalletAction.name }}</Button>
 		</div>
-		<div class="card" v-for="(provider, number) in hardwareProviders" :key="provider.metadata.name">
-			<h2 class="flex-row" style="align-items: center;"><Icon :icon="provider.metadata.icon" /><span>{{ provider.metadata.name }}</span></h2>
-			<div class="flex-column">
-				<div class="flex-row">
-					<Button :disabled="provider.metadata.disabled" @click="importProvider(provider)" class="main" :glow="true">
-						{{ provider.metadata.disabled ? `${provider.metadata.name} not supported for this browser` : `Connect with ${provider.metadata.name}` }}
-					</Button>
-					<Button v-if="provider.metadata.componentSettings" :icon="ICON.settings" :square="true" @click="activeSettings = number" />
-				</div>
-				<div class="flex-row">
-					<Button v-for="action in provider.metadata.actions" :key="action.name" v-bind="action">{{ action.name }}</Button>
-				</div>
-				<Viewport v-if="provider.metadata.componentSettings" :background="true">
-					<div v-if="activeSettings === number" class="popup">
-						<div class="card flex-column" style="min-width: 300px;">
-							<div class="flex-row" style="justify-content: space-between; align-items: center">
-								<h2>Settings</h2>
-								<WalletSelector @exit="activeSettings = -1" />
-							</div>
-							<component :is="provider.metadata.componentSettings" />
-						</div>
-					</div>
-				</Viewport>
-			</div>
-		</div>
 	</div>
 </template>
 

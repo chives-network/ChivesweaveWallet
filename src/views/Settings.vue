@@ -11,12 +11,14 @@
 				<SettingItem name="Gateway" description="URL of the service used to access network data">
 					<Input v-model="gateway" :submit="gatewayAction" :placeholder="ArweaveStore.gatewayURL" :icon="ICON.download" style="flex:1 1 0;" />
 				</SettingItem>
+				<!--
 				<SettingItem name="Bundler" description="URL of the service used to submit data to the network when possible instead of using the gateway">
 					<Input v-model="bundler" :submit="bundlerAction" :placeholder="ArweaveStore.bundlerURL" :icon="ICON.upload" style="flex:1 1 0;" />
 				</SettingItem>
 				<SettingItem name="Currency">
 					<Select v-model="currentSetting" :options="redstoneOptions" :icon="currency.symbol" />
 				</SettingItem>
+				-->
 			</div>
 			<div>
 				<h2>Security</h2>
@@ -35,10 +37,12 @@
 				<h2>Links</h2>
 				<Links />
 			</div>
+			<!--
 			<div>
 				<h2>Browser Extensions</h2>
 				<LinksExtension />
 			</div>
+			-->
 			<div>
 				<h2>Version Alpha</h2>
 				<!-- Todo version history -->

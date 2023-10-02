@@ -1,8 +1,8 @@
 import { Emitter } from '@/functions/UtilsClass'
 import { reactive, ref, watch } from 'vue'
 
-import logoArweaveBlack from '@/assets/logos/arweaveBlack.svg?url'
-import logoArweaveWhite from '@/assets/logos/arweaveWhite.svg?url'
+import logoChivesBlack from '@/assets/logos/ChivesBlack.svg?url'
+import logoChivesWhite from '@/assets/logos/ChivesWhite.svg?url'
 
 const InterfaceStore = reactive({
 	windowWidth: window.innerWidth,
@@ -91,8 +91,8 @@ const faviconEl = document.createElement('link')
 faviconEl.setAttribute('rel', 'favicon icon')
 const setFavicon = (e: { matches: boolean }) => {
 	faviconEl.remove()
-	if (e.matches) { faviconEl.setAttribute('href', logoArweaveBlack) }
-	else { faviconEl.setAttribute('href', logoArweaveWhite) }
+	if (e.matches) { faviconEl.setAttribute('href', logoChivesBlack) }
+	else { faviconEl.setAttribute('href', logoChivesWhite) }
 	document.head.appendChild(faviconEl)
 }
 if (window.matchMedia) {

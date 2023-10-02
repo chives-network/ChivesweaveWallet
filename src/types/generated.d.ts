@@ -38,15 +38,16 @@ type SVGIcon = {
 	'y': Icon
 }
 type SVGLogo = {
-	'arweave': Icon
-	'arweaveBlack': Icon
-	'arweaveOutline': Icon
-	'arweaveWhite': Icon
 	'browsers': {
 		'chrome': Icon
 		'edge': Icon
 		'firefox': Icon
 	}
+	'ChivesSvg': Icon
+	'Chives': Icon
+	'ChivesBlack': Icon
+	'ChivesOutline': Icon
+	'ChivesWhite': Icon
 	'ledger': Icon
 	'socials': {
 		'discord': Icon

@@ -42,7 +42,6 @@ const title = import.meta.env.VITE_TITLE
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: #111;
 	position: relative;
 }
 

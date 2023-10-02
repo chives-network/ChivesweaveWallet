@@ -52,9 +52,10 @@ watch(() => props.icon, () => key.value++, { deep: true })
 }
 
 .img {
-	width: inherit;
-	height: inherit;
+	width: 20px;
+	height: 20px;
 	object-fit: contain;
+	border-radius: 50%;
 }
 
 .symbol {

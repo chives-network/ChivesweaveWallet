@@ -48,8 +48,8 @@ const icon = computed(() => {
 const styleObject = computed(() => ({
 	color: props.options.isData && !props.options.isValue ? 'var(--orange)' : props.options.direction === 'in' ? 'var(--green)' : 'var(--red)',
 }))
-const src = computed(() => !props.options.isValue && tags.value['content-type']?.startsWith('image') && props.tx.id && (ArweaveStore.gatewayURL + props.tx.id) || undefined)
-const vid = computed(() => !props.options.isValue && tags.value['content-type']?.startsWith('video') && props.tx.id && (ArweaveStore.gatewayURL + props.tx.id) || undefined)
+const src = computed(() => props.options.isData && tags.value['content-type']?.startsWith('image') && props.tx.id && (ArweaveStore.gatewayURL + props.tx.id) || undefined)
+const vid = computed(() => props.options.isData && tags.value['content-type']?.startsWith('video') && props.tx.id && (ArweaveStore.gatewayURL + props.tx.id) || undefined)
 const loaded = ref(false)
 const canLoad = ref(false)
 const intersecting = ref(false)
@@ -103,5 +103,6 @@ watch(() => ({ src: (src.value || vid.value), intersecting: intersecting.value }
 	background: var(--background);
 	border-radius: inherit;
 	overflow: hidden;
+	border-radius: 50%;
 }
 </style>

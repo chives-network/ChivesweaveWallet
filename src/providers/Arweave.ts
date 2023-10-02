@@ -88,7 +88,7 @@ export class ArweaveAccount extends Emitter implements Account {
 	reserved_rewards_total_Balance = getAsyncData({
 		name: 'reserved_rewards_total',
 		awaitEffect: () => this.key,
-		query: async () => await fetch(ArweaveStore.gatewayURL+'/wallet/'+ this.key +'/reserved_rewards_total').then(res => res.json().then(res => res)).catch(() => {}),
+		query: async () => await fetch(ArweaveStore.gatewayURL+'wallet/'+ this.key +'/reserved_rewards_total').then(res => res.json().then(res => res)).catch(() => {}),
 		seconds: 600,
 	})
 	get key () { return this.#key.value }

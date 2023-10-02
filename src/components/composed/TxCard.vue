@@ -78,6 +78,9 @@ const isData = computed(() => (props.tx.data?.size) > 0)
 console.log("props.options?.currentAddress",props.options)
 console.log("props.tx.recipient",props.tx.recipient)
 console.log("direction",direction.value)
+console.log("isData",isData.value)
+console.log("isValue",isValue.value)
+console.log("value",value.value)
 const status = computed(() => {
 	if (!props.tx.id || !props.tx.block) { return 'pending' }
 	return 'confirmed'

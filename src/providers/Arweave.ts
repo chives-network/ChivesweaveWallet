@@ -23,7 +23,7 @@ import { encode } from '@/functions/Encode'
 
 const displayMetadata: DisplayMetadata = {
 	name: 'Arweave address',
-	icon: LOGO.arweave
+	icon: LOGO.Chives
 }
 
 const accountMetadata: AccountMetadata = {

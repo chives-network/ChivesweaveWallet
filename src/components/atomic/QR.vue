@@ -2,7 +2,7 @@
 	<div class="qr" style="overflow: hidden; position: relative;">
 		<div ref="canvas" class="qr-container" />
 		<div v-if="hasLogo" class="logo" style="filter:url(#blob2);">
-			<Icon :icon="LOGO.arweaveOutline" />
+			<Icon :icon="LOGO.ChivesOutline" />
 		</div>
 	</div>
 </template>

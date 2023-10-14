@@ -8,6 +8,7 @@ import type { ExtractNames } from '@/router/types'
 import Wallet from '@/views/Wallet.vue'
 import TxList from '@/views/TxList.vue'
 import Send from '@/views/Send.vue'
+import Upload from '@/views/Upload.vue'
 import Tokens from '@/views/Tokens.vue'
 import AddWallet from '@/views/AddWallet.vue'
 import EditWallet from '@/views/EditWallet.vue'
@@ -33,6 +34,13 @@ const routes = [
 				path: 'send',
 				component: Send,
 				meta: { title: 'Send' },
+				props: (route) => ({ wallet: getWalletById(route.params.walletId) }),
+			},
+			{
+				name: 'Upload',
+				path: 'upload',
+				component: Upload,
+				meta: { title: 'Upload' },
 				props: (route) => ({ wallet: getWalletById(route.params.walletId) }),
 			},
 			{

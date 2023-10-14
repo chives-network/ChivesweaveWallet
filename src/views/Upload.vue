@@ -4,12 +4,12 @@
 			<!-- TODO Autocomplete local addrs -->
 			<label for="target">
 				<h2 class="heading flex-row">
-					<Icon :icon="ICON.northEast" />
-					<span>Send</span>
+					<Icon :icon="ICON.cloud" />
+					<span>Upload</span>
 				</h2>
 			</label>
-			<InputAddress v-model="form.target" id="target" />
-			<div class="row bottom flex-row">
+			<InputAddress v-model="form.target" id="target" v-show="false" />
+			<div class="row bottom flex-row" v-show="false">
 				<div>
 					<transition name="slide-up">
 						<div v-show="validation.target" class="validation">{{ validation.target }}</div>
@@ -17,13 +17,13 @@
 				</div>
 			</div>
 
-			<label for="quantity">
+			<label for="quantity" v-show="false">
 				<h3 class="heading flex-row">
 					<span>Amount</span>
 				</h3>
 			</label>
-			<InputAr v-model="form.quantity" id="quantity" />
-			<div class="row bottom flex-row">
+			<InputAr v-model="form.quantity" id="quantity"  v-show="false"/>
+			<div class="row bottom flex-row" v-show="false">
 				<div>
 					<transition name="slide-up">
 						<div v-show="validation.quantity" class="validation">{{ validation.quantity }}</div>
@@ -68,7 +68,7 @@
 
 			<div class="row flex-row" style="align-items:flex-end; margin-top:3em;">
 				<SendFee :size="form.txSize" :target="form.target" @update="fee => form.txFee = fee" />
-				<Button @click="postTx" :disabled="loading || !form.txFee || !form.txSize || !wallet.signTransaction" :icon="ICON.northEast" :color="addressHashColor" :glow="true">{{ InterfaceStore.online ? 'Submit' : 'Sign'}}</Button>
+				<Button @click="postTx" :disabled="loading || !form.txFee || !form.txSize || !wallet.signTransaction" :icon="ICON.cloud" :color="addressHashColor" :glow="true">{{ InterfaceStore.online ? 'Submit' : 'Sign'}}</Button>
 			</div>
 			<div>
 				<transition name="slide-up">

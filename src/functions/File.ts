@@ -17,7 +17,7 @@ export async function dropped (e?: DragEvent | InputEvent | FileSystemDirectoryH
 	const goToSend = (owner?: string) => {
 		const ownerWalletIndex = Wallets.value.findIndex(w => w.key === owner)
 		const walletId = Wallets.value[Math.max(ownerWalletIndex, 0)].id
-		if (ownerWalletIndex >= 0 || router.currentRoute.value.name !== 'Send') { router.push({ name: 'Send', params: { walletId } }) }
+		//if (ownerWalletIndex >= 0 || router.currentRoute.value.name !== 'Send') { router.push({ name: 'Send', params: { walletId } }) }
 	}
 	if (!e) { if (!writing) { await addFiles([]); return true } else { return } }
 	const text = typeof e === 'string' ? e : eventToText(e)

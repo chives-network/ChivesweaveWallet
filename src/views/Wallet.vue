@@ -38,6 +38,7 @@ const props = defineProps<{ wallet: Wallet }>()
 
 const actions = [
 	{ name: 'Send', icon: ICON.northEast, text: 'Send' },
+	{ name: 'Upload', icon: ICON.cloud, text: 'Upload' },
 	{ name: 'TxList', icon: ICON.swap, text: 'Transactions' },
 	// { name: 'Tokens', icon: IconCircle, text: 'Tokens' },
 ]

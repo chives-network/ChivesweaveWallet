@@ -11,7 +11,7 @@ https://wallet.chivesweave.org
 - Local-first, self-custodial wallet
 - Create / Import / Export wallets by passphrase or key file
 - Ledger support (awaiting release on Ledger app store)
-- Send and receive AR tokens
+- Send and receive XWE tokens
 - Upload permanent data (text, files, folders, deploy static websites)
 - View transactions and data
 

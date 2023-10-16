@@ -41,6 +41,7 @@ export async function addFiles (files?: FileWithPath[]) {
 		const tags = [] as Tag[]
 		setBaseTags(tags, {
 			'Content-Type': file.type,
+			'File-Name': file.name,
 			'File-Hash': await getHash({ data })
 		})
 		return { data, tags, path: file.normalizedPath }
@@ -53,6 +54,7 @@ export async function addFiles (files?: FileWithPath[]) {
 	} else {
 		setBaseTags(form.tags, {
 			'Content-Type': files[0].type,
+			'File-Name': files[0].name,
 			'File-Hash': await getHash(form.data[0])
 		})
 	}

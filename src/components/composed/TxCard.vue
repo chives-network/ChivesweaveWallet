@@ -82,7 +82,7 @@ console.log("isData",isData.value)
 console.log("isValue",isValue.value)
 console.log("value",value.value)
 const status = computed(() => {
-	if (!props.tx.id || !props.tx.block) { return 'pending' }
+	if (!props.tx.id || !props.tx.block || !props.tx.block.indep_hash) { return 'pending' }
 	return 'confirmed'
 })
 const dataSize = computed(() => isData.value && humanFileSize(props.tx.data?.size))

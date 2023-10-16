@@ -66,7 +66,7 @@
 				<button type="button" class="secondary" @click="addTag()" id="add-tag">Add</button>
 			</div>
 
-			<div class="row flex-row" style="align-items:flex-end; margin-top:3em;">
+			<div class="row flex-row" style="align-items:flex-end;">
 				<SendFee :size="form.txSize" :target="form.target" @update="fee => form.txFee = fee" />
 				<Button @click="postTx" :disabled="loading || !form.txFee || !form.txSize || !wallet.signTransaction" :icon="ICON.cloud" :color="addressHashColor" :glow="true">{{ InterfaceStore.online ? 'Submit' : 'Sign'}}</Button>
 			</div>
@@ -178,10 +178,10 @@ const addressHashColor = computed(() => addressHashToColor(addressHash.value).jo
 
 .heading {
 	align-items: center;
+	height: 25px;
 }
 
 .row {
-	min-height: 3em;
 	align-items: center;
 	justify-content: space-between;
 }

@@ -1,8 +1,9 @@
 :root {
 	--toolbar-size: 64px;
 	--toolbar-spacing: 10px;
-	--spacing-default: 18px;
+	--spacing-default: 10px;
 	--spacing: var(--spacing-default);
+	--spacing-top: var(0 10px 0 10px);
 	--popup-width: 400px;
 	--column-width-small: 600px;
 	--column-width: 700px;

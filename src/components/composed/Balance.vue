@@ -65,7 +65,7 @@ const mining = computed(() => props.wallet.key && miningData.state.value?.[props
 }
 
 .balance > * {
-	padding: var(--spacing);
+	padding: 0 10px 0 10px;
 }
 
 .big {

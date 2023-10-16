@@ -7,7 +7,7 @@
 						<Balance :wallet="wallet" />
 						<div class="actions">
 							<Selector selector=".action" active=".active, .router-link-active" :vertical="true">
-								<Action v-for="action in actions" :key="action.name" :to="{ name: action.name }" :icon="action.icon" replace>{{ action.text }}</Action>
+								<Action v-for="action in actions" :key="action.name" :to="{ name: action.name }" :icon="action.icon" replace  class="horizontal-action">{{ action.text }}</Action>
 							</Selector>
 						</div>
 					</div>
@@ -39,7 +39,7 @@ const props = defineProps<{ wallet: Wallet }>()
 const actions = [
 	{ name: 'Send', icon: ICON.northEast, text: 'Send' },
 	{ name: 'Upload', icon: ICON.cloud, text: 'Upload' },
-	{ name: 'TxList', icon: ICON.swap, text: 'Transactions' },
+	{ name: 'TxList', icon: ICON.swap, text: 'Txs' },
 	// { name: 'Tokens', icon: IconCircle, text: 'Tokens' },
 ]
 const verticalLayout = toRef(InterfaceStore.breakpoints, 'verticalLayout')
@@ -81,7 +81,14 @@ const contentTransitionAxis = computed(() => route.meta.transition?.nameWallet &
 }
 
 .action {
-	padding: var(--spacing);
+	padding: 0 10px 0 10px;
 	border-radius: var(--border-radius);
 }
+
+.horizontal-action {
+	display: inline-block; 
+}
+
+
+
 </style>

@@ -140,7 +140,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 			try {
 				const firstFetch = !list.state.value.length
 				for (let i = 0; !fulfilled; i++) {
-					console.log("getQueryManager results 1 ", optionsRef.value)
+					//console.log("getQueryManager results 1 ", optionsRef.value)
 					if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
 						const results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['recipients'][0] +'/deposits/'+ PageId_Deposits +'/'+ PageRecords_Deposits).then(res => res.json().then(res => res)).catch(() => {})
 						if(results.length!=PageRecords_Sent) {
@@ -149,7 +149,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 						else {						
 							PageId_Deposits = PageId_Deposits + 1
 						}
-						console.log("getQueryManager deposits 2 ",results)
+						//console.log("getQueryManager deposits 2 ",results)
 						list.add(results)
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='sent') {
@@ -160,7 +160,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 						else {						
 							PageId_Sent = PageId_Sent + 1
 						}
-						console.log("getQueryManager sent 2 ",results)
+						//console.log("getQueryManager sent 2 ",results)
 						list.add(results)
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='files') {
@@ -171,7 +171,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 						else {						
 							PageId_Data = PageId_Data + 1
 						}
-						console.log("getQueryManager files 2 ",results)
+						//console.log("getQueryManager files 2 ",results)
 						list.add(results)
 					}
 					status.completed = true; 
@@ -182,7 +182,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 				if (firstFetch) { setTimeout(() => refreshEnabled.value = true, refresh * 1000) }
 			}
 			catch (e) { console.error("Error getQueryManager 158",e); await new Promise<void>(res => setTimeout(() => res(), 10000)); throw e }
-			console.log("getQueryManager results getQueryManager ",results)
+			//console.log("getQueryManager results getQueryManager ",results)
 			return results
 		},
 	})
@@ -196,7 +196,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 			let fulfilled = false
 			let results = undefined as undefined | TransactionEdge[]
 			for (let i = 0; !fulfilled; i++) {
-				console.log("getAsyncData161______",optionsRef.value)
+				//console.log("getAsyncData161______",optionsRef.value)
 				if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
 					const results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['recipients'][0] +'/deposits/'+ PageId_Deposits +'/'+ PageRecords_Deposits).then(res => res.json().then(res => res)).catch(() => {})
 					if(results.length!=PageRecords_Sent) {
@@ -205,7 +205,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 					else {						
 						PageId_Deposits = PageId_Deposits + 1
 					}
-					console.log("getQueryManager deposits 2 ",results)
+					//console.log("getQueryManager deposits 2 ",results)
 					list.add(results)
 				}
 				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='sent') {
@@ -216,7 +216,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 					else {						
 						PageId_Sent = PageId_Sent + 1
 					}
-					console.log("getQueryManager sent PageId_Deposits ",PageId_Deposits)
+					//console.log("getQueryManager sent PageId_Deposits ",PageId_Deposits)
 					list.add(results)
 				}
 				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='files') {
@@ -227,7 +227,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 					else {						
 						PageId_Data = PageId_Data + 1
 					}
-					console.log("getQueryManager files 2 ",results)
+					//console.log("getQueryManager files 2 ",results)
 					list.add(results)
 				}
 				status.completed = true; 

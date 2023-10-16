@@ -75,12 +75,12 @@ const relativeAddress = computed(() => direction.value === 'in' ? props.tx.owner
 const value = computed(() => props.tx.quantity && (props.tx.quantity?.xwe))
 const isValue = computed(() => value.value && parseFloat(value.value) > 0)
 const isData = computed(() => (props.tx.data?.size) > 0)
-console.log("props.options?.currentAddress",props.options)
-console.log("props.tx.recipient",props.tx.recipient)
-console.log("direction",direction.value)
-console.log("isData",isData.value)
-console.log("isValue",isValue.value)
-console.log("value",value.value)
+//console.log("props.options?.currentAddress",props.options)
+//console.log("props.tx.recipient",props.tx.recipient)
+//console.log("direction",direction.value)
+//console.log("isData",isData.value)
+//console.log("isValue",isValue.value)
+//console.log("value",value.value)
 const status = computed(() => {
 	if (!props.tx.id || !props.tx.block || !props.tx.block.indep_hash) { return 'pending' }
 	return 'confirmed'

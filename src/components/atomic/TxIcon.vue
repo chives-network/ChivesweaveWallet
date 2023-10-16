@@ -5,8 +5,8 @@
 			<Icon v-if="options.status === 'pending' || uploadProgress" icon="loader" :progress="uploadProgress" class="loader" />
 		</transition>
 		<transition name="fade-fast">
-			<img class="image" v-if="src && canLoad" v-show="loaded" @load="loaded = true" :src="src" alt="thumbnail" draggable="false" @dragstart.prevent />
-			<Video class="image" v-else-if="vid && canLoad" :tx="tx" :thumbnail="true" />
+			<img class="image" v-if="src && canLoad && options.status === 'confirmed' " v-show="loaded" @load="loaded = true" :src="src" alt="thumbnail" draggable="false" @dragstart.prevent />
+			<Video class="image" v-else-if="vid && canLoad && options.status === 'confirmed'" :tx="tx" :thumbnail="true" />
 		</transition>
 	</Observer>
 </template>

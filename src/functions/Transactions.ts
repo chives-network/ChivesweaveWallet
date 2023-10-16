@@ -2,7 +2,6 @@ import ArweaveStore, { arweave, arweaveQuery } from '@/store/ArweaveStore'
 import InterfaceStore from '@/store/InterfaceStore'
 import { getMempool, getPending } from '@/store/BlockStore'
 import { notify } from '@/store/NotificationStore'
-import { track } from '@/store/Telemetry'
 import BigNumber from 'bignumber.js'
 import { PromisePool } from '@supercharge/promise-pool'
 import { encode } from '@/functions/Encode'
@@ -95,7 +94,7 @@ export function generateManifest (localPaths: string[], transactions: Array<{ id
 
 
 
-export async function manageUpload (tx: AnyTransaction) {
+export async function manageUpload(tx: AnyTransaction) {
 	if (!InterfaceStore.online) { return requestExport({ tx }) }
 	if (!tx.chunks?.chunks?.length) { 
 		const txResult = await arweave.transactions.post(tx); 
@@ -105,8 +104,12 @@ export async function manageUpload (tx: AnyTransaction) {
 		else if(txResult.status==400) {
 			notify.error(txResult.statusText); 
 		}
+		else {			
+			notify.log('Unknow error');
+		}
 		return 
 	}
+	const { toast, notification } = notify.info('Transaction sending...');
 	const uploader = await arweave.transactions.getUploader(tx)
 	const storageKey = 'uploader:' + tx.id
 	localStorage.setItem(storageKey, JSON.stringify(uploader))
@@ -117,10 +120,17 @@ export async function manageUpload (tx: AnyTransaction) {
 		localStorage.setItem(storageKey, JSON.stringify(uploader))
 		ArweaveStore.uploads[tx.id].upload = uploader.pctComplete
 	}
-	localStorage.removeItem(storageKey)
-	setTimeout(() => delete ArweaveStore.uploads[tx.id], 1000)
-	notify.log('Transaction sent')
-	return uploader.lastResponseStatus
+	if(uploader.isComplete) {
+		localStorage.removeItem(storageKey)
+		setTimeout(() => delete ArweaveStore.uploads[tx.id], 1000)
+		toast?.close()
+		notify.log('Transaction sent')
+		return uploader.lastResponseStatus
+	}
+	else {
+		notify.error('Transaction error')
+		return 
+	}
 }
 
 let failedLastFeeRange = false

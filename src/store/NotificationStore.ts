@@ -11,13 +11,58 @@ export type NotificationData = Override<NotificationOptions, {
 	ref?: Ref
 }>
 type Notify = string | NotificationData
-const toastType = { log: 'success', warn: 'warning', error: 'danger', confirm: 'warning' } as const
+const toastType = { log: 'success', warn: 'warning', error: 'danger', confirm: 'warning', info: 'warning',  } as const
 
 const log = (notify: Notify, push?: boolean) => createNotification('log', notify, push)
 const warn = (notify: Notify, push?: boolean) => createNotification('warn', notify, push)
 const error = (notify: Notify, push?: boolean) => createNotification('error', notify, push)
 const confirm = (notify: Notify, push?: boolean) => createNotification('confirm', notify, push)
+const info = (notify: Notify, push?: boolean) => createNotificationInfo('info', notify, push)
 
+
+
+function createNotificationInfo (type: keyof typeof toastType, notify: Notify, push?: boolean) {
+	const data = (typeof notify === 'object') ? notify : { title: notify } as NotificationData
+	const { title, ...options } = data
+	options.timestamp ??= Date.now()
+	options.badge ??= undefined
+	options.icon ??= undefined
+	options.data ??= {}
+	options.data.type = type
+	
+	
+	const isVisible = document.visibilityState === 'visible'
+	const doNotification = window.Notification && Notification.permission === 'granted' && !isVisible && push
+	
+	let actions = data.actions ?? []
+	if (type === 'confirm') {
+		options.requireInteraction = true
+	}
+	let close = () => {}
+	const promise = new Promise<boolean>(res => {
+		actions = actions.map(a => {
+			const run = () => { a.run && a.run?.(); res(true) }
+			return { ...a, run }
+		})
+		if (type === 'confirm') { actions = [{ name: 'Accept', icon: ICON.y, run: () => res(true) }, { name: 'Cancel', icon: ICON.x, run: () => res(false) }, ...actions] }
+		close = () => res(false)
+	})
+	const toastSettings = { title, description: options.body }
+	const props: { data: NotificationData } = { data: { ...toastSettings, actions } }
+	const toastContent = withProps(Notification, props)
+	
+	const notification = doNotification ? new Notification(title, options) : undefined
+	const toast = !doNotification ? createToast(toastContent, {
+		type: toastType[type],
+		showIcon: true,
+		onClose: () => { options.onClose?.(); close() },
+		timeout: -1
+	}) : undefined
+	
+	if (push) { pushNotification(data) }
+	
+	return { toast, notification }
+}
 
 
 function createNotification (type: keyof typeof toastType, notify: Notify, push?: boolean) {
@@ -110,7 +155,7 @@ function getManager (origin: string) { // use queryManager
 
 
 
-export const notify = { log, warn, error, confirm }
+export const notify = { log, warn, error, confirm, info }
 
 export const notificationPermission = ref(window.Notification?.permission)
 navigator.permissions?.query?.({ name: 'notifications' }).then(status => status.addEventListener('change', () => notificationPermission.value = window.Notification.permission))

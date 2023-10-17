@@ -36,21 +36,14 @@ import List from '@/components/layout/List.vue'
 import Observer from '@/components/function/Observer.vue'
 import { ICON } from '@/store/Theme'
 import { ref } from 'vue'
-import { arweave, arweaveQuery } from '@/store/ArweaveStore'
+import { arweave, arweaveQueryTxsRecord } from '@/store/ArweaveStore'
 import { humanFileSize } from '@/functions/Utils'
 import { getAsyncData } from '@/functions/AsyncData'
 
 const props = defineProps<{ block: any }>()
-
 const visible = ref(false)
-const txsQuery = arweaveQuery({ block: { min: props.block.height, max: props.block.height } })
-const blockData = getAsyncData({
-	name: 'single block header',
-	awaitEffect: () => visible.value,
-	query: async () => arweave.blocks.get(props.block.indep_hash),
-	seconds: 10,
-	completed: state => state
-}).state
+const txsQuery = arweaveQueryTxsRecord(props.block.height)
+
 </script>
 
 

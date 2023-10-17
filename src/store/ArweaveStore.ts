@@ -25,8 +25,6 @@ const ArweaveStore = reactive({
 export default ArweaveStore
 export var arweave: Arweave
 
-
-
 export function urlToSettings (url: string) {
 	const obj = new URL(url)
 	const protocol = obj.protocol.replace(':', '')
@@ -278,7 +276,7 @@ export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo renam
 			let results: any
 			try {
 				const PageId = 1
-				const url = ArweaveStore.gatewayURL+'/blockpage/'+ PageId +'/10'
+				const url = ArweaveStore.gatewayURL+'blockpage/'+ PageId +'/10'
 				results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
 				status.completed = true
 				data.value.push(...results)
@@ -291,7 +289,7 @@ export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo renam
 		awaitEffect: () => !fetchQuery.queryStatus.running && refreshEnabled.value,
 		query: async () => {
 			const PageId = 1
-			const url = ArweaveStore.gatewayURL+'/blockpage/'+ PageId +'/10'
+			const url = ArweaveStore.gatewayURL+'blockpage/'+ PageId +'/10'
 			const results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
 			return results
 		},
@@ -304,6 +302,41 @@ export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo renam
 }
 
 
+export function arweaveQueryTxsRecord (blockHeight: number) { // todo rename to arweaveBlocks and make reactive
+	const status = reactive({ completed: false })
+	const data = ref([] as BlockEdge[])
+	const refresh = 10
+	const refreshEnabled = ref(false)
+	
+	const fetchQuery = getQueryManager({
+		name: 'arweaveQueryTxsRecord fetch',
+		query: async () => {
+			if (status.completed) { return data.value }
+			let results: any
+			try {
+				const url = ArweaveStore.gatewayURL+'block/txsrecord/'+ blockHeight
+				results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
+				status.completed = true
+				data.value.push(...results)
+			} catch (e) { console.error(e); await new Promise<void>(res => setTimeout(() => res(), 10000)) }
+		},
+	})
+	
+	const updateQuery = getAsyncData({
+		name: 'arweaveQueryTxsRecord update',
+		awaitEffect: () => !fetchQuery.queryStatus.running && refreshEnabled.value,
+		query: async () => {
+			const url = ArweaveStore.gatewayURL+'block/txsrecord/'+ blockHeight
+			const results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
+			return results
+		},
+		seconds: refresh,
+		existingState: data,
+		processResult: () => {},
+	})
+	
+	return { state: updateQuery.state, fetchQuery, updateQuery, status, key: '' + blockHeight }
+}
 
 export function queryAggregator (queries: RefMaybe<ReturnType<typeof arweaveQuery>[]>) {
 	const list = useList<TransactionEdge>({ // todo generalize

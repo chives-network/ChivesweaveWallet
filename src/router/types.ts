@@ -13,7 +13,6 @@ export type ExtractNames<T> = T extends AsConst<RouteRecordRaw[]>
 		: never
 
 
-
 declare module 'vue-router' {
 	interface RouteMeta {
 		title?: string

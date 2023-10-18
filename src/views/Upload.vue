@@ -99,11 +99,7 @@ import { addressHashToColor, ICON } from '@/store/Theme'
 import BigNumber from 'bignumber.js'
 import { computed, reactive, ref, watch } from 'vue'
 
-
-
 const props = defineProps<{ wallet: Wallet }>()
-
-
 
 watch(() => props.wallet, () => formWallet.value = props.wallet, { immediate: true })
 

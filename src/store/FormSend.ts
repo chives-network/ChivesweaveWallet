@@ -4,6 +4,7 @@ import { notify } from '@/store/NotificationStore'
 import { readFile } from '@/functions/File'
 import { ArweaveProvider } from '@/providers/Arweave'
 import type { CreateTransactionInterface } from 'arweave/web'
+import router from '@/router'
 
 
 const formDefault = () => ({
@@ -98,6 +99,8 @@ export async function submit (wallet: Wallet) {
 			data: form.processedData,
 		}).then(tx => wallet.signTransaction(tx))
 		manageUpload(tx)
+		const walletId = Number(wallet.id) || 0
+		router.push({ name: 'TxList', params: { walletId, 'queryName':'sent' } })
 		reset()
 	} catch (e: any) {
 		console.error(e)

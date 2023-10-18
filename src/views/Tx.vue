@@ -140,6 +140,25 @@ watch(tx, (val, oldVal) => {
 	if (oldVal?.bundledIn?.id === props.txId) return vector.value = -1
 	vector.value = 1
 })
+
+
+/*
+const { unbundleData } = await import('@/../scripts/arbundles')
+const url = ArweaveStore.gatewayURL+'qF-Vg15ZrOWEw0HV6GiSehL8xZ1RA4ax_gojpkj-h1g'
+const results = await fetch(url).then(res => res.arrayBuffer()).catch(() => {})
+const buffer = Buffer.from(results);
+const unbundleDataBuffer = unbundleData(buffer);
+unbundleDataBuffer.items.map(Item => {
+	console.log("unBundleItem id",Item.id)
+	console.log("unBundleItem tags",Item.tags)
+	console.log("unBundleItem owner",Item.owner)
+	console.log("unBundleItem anchor",Item.anchor)
+	console.log("unBundleItem target",Item.target)
+	console.log("unBundleItem signature",Item.signature)
+	console.log("unBundleItem signatureType",Item.signatureType)
+	console.log("unBundleItem data",Item.data)
+})
+*/
 </script>
 
 

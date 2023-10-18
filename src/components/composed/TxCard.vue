@@ -1,7 +1,7 @@
 <template>
 	<div class="tx-card no-scrollbar" :class="{ verticalElement }">
 		<div class="tx-content" :class="{ 'flex-row': !verticalElement, 'flex-column': verticalElement }">
-			<Link class="left reset" :to="(tx.id && !options?.half) ? { name: 'Tx', params: { txId: tx.id, tx: tx } } : ''">
+			<Link class="left reset" :to="(tx.id && !options?.half && tx.block.height>0) ? { name: 'Tx', params: { txId: tx.id, tx: tx } } : ''">
 				<TxIcon class="tx-icon" :tx="tx" :options="{ isData, isValue, direction, status }" />
 				<div class="margin" />
 				<div>

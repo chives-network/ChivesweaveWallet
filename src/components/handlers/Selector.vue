@@ -34,7 +34,7 @@ import LoaderBlock from '@/components/layout/LoaderBlock.vue'
 import TransitionsManager from '@/components/visual/TransitionsManager.vue'
 import { notify } from '@/store/NotificationStore'
 import { ICON } from '@/store/Theme'
-import ArweaveStore, { arweave, arweaveQuery, getData } from '@/store/ArweaveStore'
+import ArweaveStore, { arweave, arweaveQueryBundleId, getData } from '@/store/ArweaveStore'
 import { unpackTags } from '@/functions/Transactions'
 import { computed, markRaw, reactive, ref, watch } from 'vue'
 
@@ -76,7 +76,7 @@ async function load () {
 		data.loaded = true
 		return data.handler = {
 			is: markRaw(List),
-			attrs: { query: arweaveQuery({ bundledIn: props.tx.id }), component: markRaw(TxCard), componentProps: { options: { space: true } }, class: ['column'] },
+			attrs: { query: arweaveQueryBundleId(props.tx.id), component: markRaw(TxCard), componentProps: { options: { space: true } }, class: ['column'] },
 			containerAttrs: { class: ['data-container', 'column-container', 'padding'] }
 		}
 	}

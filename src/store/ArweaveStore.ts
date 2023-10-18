@@ -230,9 +230,6 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 				}
 				status.completed = true; 
 				fulfilled = true;
-				//if (i === 0) { ;({ results, fulfilled } = processResponse(await graphql.getTransactions(optionsRef.value))) }
-				//else if (!results) { return }
-				//else { ;({ results, fulfilled } = processResponse(await graphql.getTransactions({ ...optionsRef.value, after: results[results.length - 1].cursor }))) }
 				if(results) {
 					for (const result of results) {
 						const matchingTx = list.state.value.find(el => el.id === result.id)

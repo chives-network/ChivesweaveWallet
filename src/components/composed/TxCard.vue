@@ -30,8 +30,6 @@
 	</div>
 </template>
 
-
-
 <script setup lang="ts">
 import Address from '@/components/atomic/Address.vue'
 import TxIcon from '@/components/atomic/TxIcon.vue'

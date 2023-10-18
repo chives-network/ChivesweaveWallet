@@ -12,8 +12,6 @@
 	</Observer>
 </template>
 
-
-
 <script setup lang="ts">
 import Icon from '@/components/atomic/Icon.vue'
 import Observer from '@/components/function/Observer.vue'

@@ -129,6 +129,8 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 
 	let PageId_Data = 0
 	let PageRecords_Data = 20
+
+	let PendingTxsAmount = 0
 	
 	const fetchQuery = getQueryManager({
 		name: name + ' fetch',
@@ -192,6 +194,34 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 			}
 			catch (e) { console.error("Error getQueryManager 158",e); await new Promise<void>(res => setTimeout(() => res(), 10000)); throw e }
 			//console.log("getQueryManager results getQueryManager ",results)
+			if(results) {
+				PendingTxsAmount = 0
+				for (const result of results) {
+					if (!result.block || !result.block.height) { 
+						let MyAddress = ""
+						if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners']) {
+							MyAddress  = optionsRef.value['owners'][0]
+						}
+						if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
+							MyAddress  = optionsRef.value['recipients'][0]
+						}
+						if(MyAddress==result.owner.address && result.recipient=="") {
+							//send to data or file to myself
+							PendingTxsAmount = PendingTxsAmount - result.fee.xwe - result.quantity.xwe
+						}
+						if(MyAddress==result.owner.address && result.recipient!="" && result.recipient!=result.owner.address) {
+							//send to data or tx to others
+							PendingTxsAmount = PendingTxsAmount - result.fee.xwe - result.quantity.xwe
+						}
+						if(MyAddress==result.recipient) {
+							//send to data or tx to others
+							PendingTxsAmount = PendingTxsAmount + result.quantity.xwe
+						}
+						 
+					}
+				}
+				console.log("PendingTxsAmount", PendingTxsAmount)
+			}
 			return results
 		},
 	})
@@ -254,6 +284,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 				status.completed = true; 
 				fulfilled = true;
 				if(results) {
+					PendingTxsAmount = 0
 					for (const result of results) {
 						const matchingTx = list.state.value.find(el => el.id === result.id)
 						if (matchingTx) {
@@ -263,10 +294,33 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 						else { 
 							addContent.push(result) 
 						}
-						if (!result.block || !result.block.height) { isHaveMemPoolTx = true }
+						if (!result.block || !result.block.height) { 
+							isHaveMemPoolTx = true 
+							let MyAddress = ""
+							if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners']) {
+								MyAddress  = optionsRef.value['owners'][0]
+							}
+							if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
+								MyAddress  = optionsRef.value['recipients'][0]
+							}
+							if(MyAddress==result.owner.address && result.recipient=="") {
+								//send to data or file to myself
+								PendingTxsAmount = PendingTxsAmount - result.fee.xwe - result.quantity.xwe
+							}
+							if(MyAddress==result.owner.address && result.recipient!="" && result.recipient!=result.owner.address) {
+								//send to data or tx to others
+								PendingTxsAmount = PendingTxsAmount - result.fee.xwe - result.quantity.xwe
+							}
+							if(MyAddress==result.recipient) {
+								//send to data or tx to others
+								PendingTxsAmount = PendingTxsAmount + result.quantity.xwe
+							}
+							 
+						}
 					}
 					console.log("removeContent", removeContent)
 					console.log("addContent", addContent)
+					console.log("PendingTxsAmount", PendingTxsAmount)
 				}
 			}
 			if(isHaveMemPoolTx==false)  {
@@ -294,9 +348,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 		return list.state
 	}
 	
-	
-	
-	return { state: updateQuery.state, list, fetchQuery, updateQuery, status, refreshSwitch, fetchAll, key: '' + Math.random() }
+	return { state: updateQuery.state, list, fetchQuery, updateQuery, status, refreshSwitch, fetchAll, key: '' + Math.random(), PendingTxsAmount }
 }
 
 export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo rename to arweaveBlocks and make reactive

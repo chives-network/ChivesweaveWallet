@@ -13,7 +13,15 @@
 						<LocaleCurrency :ar="wallet.balance" />
 					</div>
 				</div>
-				<div v-if="wallet.reserved_rewards_total" style="flex: 1 1 auto; opacity: 0.75;">
+				<div v-if="wallet.pendingbalance !== '0'" style="flex: 1 1 auto; opacity: 0.75;">
+					<div class="flex-row big">
+						<Ar :ar="wallet.pendingbalance" />
+					</div>
+					<div>
+						Pending Amount
+					</div>
+				</div>				
+				<div v-else-if="wallet.reserved_rewards_total" style="flex: 1 1 auto; opacity: 0.75;">
 					<div class="flex-row big">
 						<Ar :winston="wallet.reserved_rewards_total" />
 					</div>
@@ -37,7 +45,6 @@ import Button from '@/components/atomic/Button.vue'
 import Icon from '@/components/atomic/Icon.vue'
 import ArweaveStore, { networkInfo } from '@/store/ArweaveStore'
 import { computed } from 'vue'
-import { miningData } from '@/functions/Mining'
 
 const props = defineProps<{ wallet: Wallet }>()
 
@@ -49,7 +56,6 @@ const mint = computed(() => {
 	}
 })
 
-const mining = computed(() => props.wallet.key && miningData.state.value?.[props.wallet.key]?.pendingReward.toString())
 </script>
 
 

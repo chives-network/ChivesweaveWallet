@@ -31,6 +31,7 @@ interface Account {
 	reserved_rewards_total?: string
 	queries: { query: any, name: string, color: string }[]
 	queryBalance: any
+	PendingTxsAmount: number
 	destructor?: () => any
 }
 

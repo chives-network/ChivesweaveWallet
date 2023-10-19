@@ -87,6 +87,37 @@ export class ArweaveAccount extends Emitter implements Account {
 		query: async () => arweave.ar.winstonToAr(await arweave.wallets.getBalance(this.key!)),
 		seconds: 600,
 	})
+	queryPendingBalance = getAsyncData({
+		name: 'pendingbalance',
+		awaitEffect: () => this.key,
+		query: async () => {
+			const results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ this.key! +'/txsrecord/0/20').then(res => res.json().then(res => res)).catch(() => {})
+			let PendingTxsAmount = 0
+			if(results) {
+				for (const result of results) {
+					if (!result.block || !result.block.height) { 
+						const MyAddress  = this.key!
+						if(MyAddress==result.owner.address && result.recipient=="") {
+							//send to data or file to myself
+							PendingTxsAmount = PendingTxsAmount - result.fee.xwe - result.quantity.xwe
+						}
+						if(MyAddress==result.owner.address && result.recipient!="" && result.recipient!=result.owner.address) {
+							//send to data or tx to others
+							PendingTxsAmount = PendingTxsAmount - result.fee.xwe - result.quantity.xwe
+						}
+						if(MyAddress==result.recipient) {
+							//send to data or tx to others
+							PendingTxsAmount = PendingTxsAmount + result.quantity.xwe
+						}
+						 
+					}
+				}
+				console.log("pendingbalance PendingTxsAmount", PendingTxsAmount)
+			}
+			return String(PendingTxsAmount)
+		},
+		seconds: 30,
+	})
 	reserved_rewards_total_Balance = getAsyncData({
 		name: 'reserved_rewards_total',
 		awaitEffect: () => this.key,
@@ -95,6 +126,7 @@ export class ArweaveAccount extends Emitter implements Account {
 	})
 	get key () { return this.#key.value }
 	get balance () { return this.queryBalance.state.value }
+	get pendingbalance () { return this.queryPendingBalance.state.value }
 	get reserved_rewards_total () { return this.reserved_rewards_total_Balance.state.value }
 	queries
 }

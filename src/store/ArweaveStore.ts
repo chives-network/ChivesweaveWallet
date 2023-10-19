@@ -1,13 +1,23 @@
 import Arweave from 'arweave'
-import type { BlockEdge, GetTransactionsQuery, Transaction, TransactionEdge } from 'arweave-graphql'
+import type { BlockEdge, Transaction } from 'arweave-graphql'
 import { compact, generateUrl } from '@/functions/Utils'
 import { useChannel } from '@/functions/Channels'
 import { getAsyncData, getQueryManager, getReactiveAsyncData, useDataWrapper } from '@/functions/AsyncData'
 import { computed, isRef, reactive, ref, Ref, watch } from 'vue'
 import { notify } from '@/store/NotificationStore'
-import { track } from '@/store/Telemetry'
 import InterfaceStore from '@/store/InterfaceStore'
 import { makeRef, useList } from '@/functions/UtilsVue'
+
+declare type TransactionNode = {
+    block: any;
+	data: {type: string, size: number};
+	fee: {xwe: number, winston: number};
+	id: string;
+	owner: {address: string};
+	quantity: {xwe: number, winston: number};
+	recipient: string;
+	tags: [];
+};
 
 
 export const gatewayDefault = 'https://api.chivesweave.net/' //'https://api.chivesweave.net/'
@@ -86,7 +96,7 @@ export async function getData (id: string): Promise<string | undefined> {
 const txSort = (a: Transaction, b: Transaction) => blockSort({ node: a, cursor: '' }, { node: b, cursor: '' })
 const txPrioritize = (a: Transaction, b: Transaction) => a.block && b.block ? txSort(a, b) : +!!b.block - +!!a.block
 
-const blockSort = (a: TransactionEdge, b: TransactionEdge) => (b.block?.height ?? Number.MAX_SAFE_INTEGER)
+const blockSort = (a: TransactionNode, b: TransactionNode) => (b.block?.height ?? Number.MAX_SAFE_INTEGER)
 	- (a.block?.height ?? Number.MAX_SAFE_INTEGER)
 
 type arweaveQueryOptions = Parameters<any>[0] | Ref<Parameters<any>[0]>
@@ -94,7 +104,7 @@ type arweaveQueryOptions = Parameters<any>[0] | Ref<Parameters<any>[0]>
 export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
 	const optionsRef = isRef(options) ? options : ref(options)
 	const status = reactive({ completed: false, reset: 0 })
-	const list = useList<TransactionEdge>({
+	const list = useList<TransactionNode>({
 		key: a => a.id,
 		sort: blockSort, // todo use txSort
 		prioritize: (a, b) => a.block && b.block ? blockSort(a, b) : +!!b.block - +!!a.block 
@@ -110,14 +120,6 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 		status.reset++
 	}, { deep: true })
 	
-	const processResponse = (res: GetTransactionsQuery) => {
-		let fulfilled = false
-		const results = res.transactions.edges as TransactionEdge[]
-		const complete = !res.transactions.pageInfo.hasNextPage || results.length < (optionsRef.value?.first ?? 10)
-		if (complete) { status.completed = true; fulfilled = true }
-		return { results, fulfilled }
-	}
-
 
 	let PageId_Deposits = 0
 	let PageRecords_Deposits = 20
@@ -134,7 +136,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 			if (optionsRef.value == null) { status.completed = true }
 			if (status.completed) { return [] }
 			let fulfilled = false
-			let results = undefined as undefined | TransactionEdge[]
+			let results = undefined as undefined | TransactionNode[]
 			try {
 				const firstFetch = !list.state.value.length
 				for (let i = 0; !fulfilled; i++) {
@@ -169,13 +171,22 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 						else {						
 							PageId_Data = PageId_Data + 1
 						}
+						//console.log("getQueryManager all 2 ",results)
+						list.add(results || [])
+					}
+					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='all') {
+						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/txsrecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res)).catch(() => {})
+						if(results && results.length!=PageRecords_Sent) {
+							fulfilled = true
+						}
+						else {						
+							PageId_Data = PageId_Data + 1
+						}
 						//console.log("getQueryManager files 2 ",results)
 						list.add(results || [])
 					}
 					status.completed = true; 
 					fulfilled = true;
-					//;({ results, fulfilled } = processResponse(await graphql.getTransactions(i === 0 && firstFetch ? optionsRef.value : { ...optionsRef.value, after: list.state.value[list.state.value.length - 1].cursor })))
-					//if (results[results.length - 1]?.block) { fulfilled = true }	
 				}
 				if (firstFetch) { setTimeout(() => refreshEnabled.value = true, refresh * 1000) }
 			}
@@ -186,13 +197,14 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 	})
 
 	const updateQuery = getAsyncData({
-		name: name + ' update',
+		name: name + ' getAsyncData update',
 		awaitEffect: () => !fetchQuery.queryStatus.running && refreshEnabled.value,
 		query: async () => {
-			let removeContent = [] as TransactionEdge[]
-			let addContent = [] as TransactionEdge[]
+			let removeContent = [] as TransactionNode[]
+			let addContent = [] as TransactionNode[]
 			let fulfilled = false
-			let results = undefined as undefined | TransactionEdge[]
+			let results = undefined as undefined | TransactionNode[]
+			let isHaveMemPoolTx = false;
 			for (let i = 0; !fulfilled; i++) {
 				//console.log("getAsyncData161______",optionsRef.value)
 				if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
@@ -228,6 +240,17 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 					//console.log("getQueryManager files 2 ",results)
 					list.add(results || [])
 				}
+				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='all') {
+					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/txsrecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res)).catch(() => {})
+					if(results && results.length!=PageRecords_Sent) {
+						fulfilled = true
+					}
+					else {						
+						PageId_Data = PageId_Data + 1
+					}
+					//console.log("getQueryManager all 2 ",results)
+					list.add(results || [])
+				}
 				status.completed = true; 
 				fulfilled = true;
 				if(results) {
@@ -240,14 +263,23 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') {
 						else { 
 							addContent.push(result) 
 						}
+						if (!result.block || !result.block.height) { isHaveMemPoolTx = true }
 					}
 					console.log("removeContent", removeContent)
 					console.log("addContent", addContent)
 				}
-			}			
+			}
+			if(isHaveMemPoolTx==false)  {
+				//results have all txs, not have mempool txs, so need to ensure the list not include mempool txs
+				list.state.value.map((result)=>{
+					if (!result.block || !result.block.height) { 
+						removeContent.push(result);
+					}
+				})
+			}
 			list.remove(removeContent)
 			list.add(addContent)
-			return results as TransactionEdge[]
+			return results as TransactionNode[]
 		},
 		seconds: refresh,
 		existingState: list.state,
@@ -413,7 +445,7 @@ export function arweaveQueryTxsRecord (blockHeight: number) { // todo rename to 
 }
 
 export function queryAggregator (queries: RefMaybe<ReturnType<typeof arweaveQuery>[]>) {
-	const list = useList<TransactionEdge>({ // todo generalize
+	const list = useList<TransactionNode>({ // todo generalize
 		key: a => a.id,
 		sort: blockSort, // todo use txSort
 		prioritize: (a, b) => a.block && b.block ? blockSort(a, b) : +!!b.block - +!!a.block 
@@ -448,7 +480,7 @@ export function queryAggregator (queries: RefMaybe<ReturnType<typeof arweaveQuer
 			return q.list.state.slice(slicePos)
 		})
 	})
-	const filterOverreach = (txs: TransactionEdge[], queries?: any[]) => {
+	const filterOverreach = (txs: TransactionNode[], queries?: any[]) => {
 		const bound = boundary.value
 		if (bound === true) { return [] }
 		const indexes = queries?.map(q => queriesRef.value.indexOf(q)).filter(i => i >= 0)
@@ -472,7 +504,7 @@ export function queryAggregator (queries: RefMaybe<ReturnType<typeof arweaveQuer
 		})
 		const actions = ['add', 'remove'] as const satisfies AsConst<(keyof ReturnType<typeof useList>)[]>
 		return actions.map((action: typeof actions[number]) => {
-			const callback = (txs: TransactionEdge[]) => {
+			const callback = (txs: TransactionNode[]) => {
 				if (action === 'remove') { return list[action](txs) } // todo make watch(overreached) ignore removed
 				return list[action](filterOverreach(txs, [query]))
 			}

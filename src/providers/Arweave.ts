@@ -65,7 +65,7 @@ export class ArweaveAccount extends Emitter implements Account {
 		const received = arweaveQuery(computed(() => (this.key ? { recipients: [this.key], 'type':'received' } : undefined)))
 		const sent = arweaveQuery(computed(() => (this.key ? { owners: [this.key], 'type':'sent' } : undefined)))
 		const files = arweaveQuery(computed(() => (this.key ? { owners: [this.key], 'type':'files' } : undefined)))
-		const all = queryAggregator([received, sent, files])
+		const all = arweaveQuery(computed(() => (this.key ? { owners: [this.key], 'type':'all' } : undefined)))
 		this.queries = [
 			{ query: all, name: 'All', color: 'var(--orange)' }, // todo name and color in metadata object
 			{ query: received, name: 'Received', color: 'var(--green)' },
@@ -74,6 +74,8 @@ export class ArweaveAccount extends Emitter implements Account {
 		]
 		received.list.emitter.on('add', () => this.queryBalance.getState(true))
 		sent.list.emitter.on('add', () => this.queryBalance.getState(true))
+		files.list.emitter.on('add', () => this.queryBalance.getState(true))
+		all.list.emitter.on('add', () => this.queryBalance.getState(true))
 		this.on('destructor', () => this.queryBalance.stop())
 	}
 	static get metadata () { return accountMetadata }

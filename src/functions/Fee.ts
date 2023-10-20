@@ -29,7 +29,7 @@ export function fee (options: {
 	const arQuery = getAsyncData({
 		name: 'arweave storage price',
 		query: async () => arweave.ar.winstonToAr(await arweave.transactions.getPrice(options.byteSize)),
-		seconds: 10,
+		seconds: 30,
 	})
 	const ar = arQuery.state
 	const hotWallets = computed(() => Wallets.value.filter(w => w.hasPrivateKey && w.balance && +w.balance > (options.dustThreshold ?? 0)))

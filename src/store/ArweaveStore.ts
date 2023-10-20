@@ -101,7 +101,7 @@ const blockSort = (a: TransactionNode, b: TransactionNode) => (b.block?.height ?
 
 type arweaveQueryOptions = Parameters<any>[0] | Ref<Parameters<any>[0]>
 
-export function arweaveQuery (options: arweaveQueryOptions, name = 'tx list') { 
+export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query list') { 
 	const optionsRef = isRef(options) ? options : ref(options)
 	const status = reactive({ completed: false, reset: 0 })
 	const list = useList<TransactionNode>({

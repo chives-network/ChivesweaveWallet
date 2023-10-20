@@ -28,7 +28,7 @@ function getConversion () {
 				}
 			}
 		},
-		seconds: 600,
+		seconds: 180,
 	}).state
 	watch(() => [settings.currency, settings.provider], () => settings.rate = undefined)
 	const symbol = computed(() => new Intl.NumberFormat([...navigator.languages], { style: 'currency', currency: settings.currency }).format(0).replace(/[\w\d\.\,\s]/g, '') || '$')

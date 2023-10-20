@@ -9,9 +9,6 @@
 							<Icon icon="+" />
 						</Button>
 					</div>
-					<div class="flex-row" style="align-items: baseline;">
-						<LocaleCurrency :ar="wallet.balance" />
-					</div>
 				</div>
 				<div v-if="wallet.pendingbalance !== '0'" style="flex: 1 1 auto; opacity: 0.75;">
 					<div class="flex-row big">
@@ -25,9 +22,6 @@
 					<div class="flex-row big">
 						<Ar :winston="wallet.reserved_rewards_total" />
 					</div>
-					<div>
-						<LocaleCurrency :winston="wallet.reserved_rewards_total" />
-					</div>
 				</div>
 			</div>
 		</div>
@@ -39,7 +33,6 @@
 
 <script setup lang="ts">
 import Ar from '@/components/atomic/Ar.vue'
-import LocaleCurrency from '@/components/atomic/LocaleCurrency.vue'
 import WalletInfo from '@/components/composed/WalletInfo.vue'
 import Button from '@/components/atomic/Button.vue'
 import Icon from '@/components/atomic/Icon.vue'

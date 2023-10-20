@@ -2,7 +2,6 @@
 	<span>
 		<Ar :ar="amount" /><template v-if="!slots.default">&nbsp;</template>
 		<slot />
-		<LocaleCurrency class="secondary-text" :ar="amount" />
 	</span>
 </template>
 
@@ -10,7 +9,6 @@
 
 <script setup lang="ts">
 import Ar from '@/components/atomic/Ar.vue'
-import LocaleCurrency from '@/components/atomic/LocaleCurrency.vue'
 import { arweave } from '@/store/ArweaveStore'
 import { ref, useSlots, watch } from 'vue'
 

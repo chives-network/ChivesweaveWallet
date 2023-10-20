@@ -47,7 +47,7 @@ const icon = computed(() => {
 const styleObject = computed(() => ({
 	color: props.options.isData && !props.options.isValue ? 'var(--orange)' : props.options.direction === 'in' ? 'var(--green)' : 'var(--red)',
 }))
-const src = computed(() => props.options.isData && tags.value['content-type']?.startsWith('image') && props.tx.id && (ArweaveStore.gatewayURL + props.tx.id) || undefined)
+const src = computed(() => props.options.isData && tags.value['content-type']?.startsWith('image') && props.tx.id && (ArweaveStore.gatewayURL + props.tx.id + '/thumbnail') || undefined)
 const vid = computed(() => props.options.isData && tags.value['content-type']?.startsWith('video') && props.tx.id && (ArweaveStore.gatewayURL + props.tx.id) || undefined)
 const loaded = ref(false)
 const canLoad = ref(false)

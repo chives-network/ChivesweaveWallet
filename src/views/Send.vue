@@ -121,11 +121,20 @@ watch(
 		console.log("oldVal", oldVal)
 		loading.value = false;
 		SubmitValue.value = "Submit";
-    }	
-    if (Number(newVal) == 0) {
-		loading.value = true;
-		SubmitValue.value = "Please enter data first";
-	}
+    }
+  },
+  { immediate: true }
+);
+
+watch(
+  () => form.quantity,
+  (newVal, oldVal) => {
+    if (Number(newVal) > 0) {
+		console.log("newVal", newVal)
+		console.log("oldVal", oldVal)
+		loading.value = false;
+		SubmitValue.value = "Submit";
+    }
   },
   { immediate: true }
 );
@@ -142,8 +151,8 @@ function isValid () {
 	for (const key in validation) { delete validation[key as keyof typeof validation] }
 	let result = true
 	const quantity = new BigNumber(form.quantity || 0)
-	if (!form.data && !quantity.gt(0)) {
-		validation.global = "A transaction must at least have data, or an address and amount"
+	if (!quantity.gt(0)) {
+		validation.global = "A transaction must input a amount"
 		return
 	}
 	const balance = new BigNumber(props.wallet.balance!)

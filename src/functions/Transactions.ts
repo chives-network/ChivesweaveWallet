@@ -109,14 +109,15 @@ export async function manageUpload(tx: AnyTransaction) {
 		}
 		return 
 	}
-	const { toast, notification } = notify.info('Transaction sending...');
+	const { toast, notification } = notify.log('Transaction sending...');
 	const uploader = await arweave.transactions.getUploader(tx)
 	const storageKey = 'uploader:' + tx.id
 	localStorage.setItem(storageKey, JSON.stringify(uploader))
 	ArweaveStore.uploads[tx.id] ??= {}
 	ArweaveStore.uploads[tx.id].upload = 0
 	while (!uploader.isComplete) {
-		await uploader.uploadChunk()
+		let uploadChunkResult = await uploader.uploadChunk()
+		console.log("uploadChunkResult______",uploadChunkResult)
 		localStorage.setItem(storageKey, JSON.stringify(uploader))
 		ArweaveStore.uploads[tx.id].upload = uploader.pctComplete
 	}

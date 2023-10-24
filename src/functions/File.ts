@@ -6,6 +6,7 @@ import router from '@/router'
 import { track } from '@/store/Telemetry'
 import { fromEvent } from 'file-selector'
 import { isDraggingFromOutside } from '@/store/InterfaceStore'
+import { notify } from '@/store/NotificationStore'
 
 
 
@@ -40,6 +41,7 @@ function eventToText (e: DragEvent | InputEvent | FileSystemDirectoryHandle | Fi
 
 async function eventToFiles (e: DragEvent | InputEvent | FileSystemDirectoryHandle | FileSystemFileHandle[]): Promise<FileWithPath[]> {
 	let files = [] as FileWithPath[]
+	notify.log('Ready for uploading...');
 	if ('preventDefault' in e) {
 		e.preventDefault()
 		files = await fromEvent(e) as FileWithPath[]

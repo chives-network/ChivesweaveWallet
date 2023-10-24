@@ -68,7 +68,7 @@
 
 			<div class="row flex-row" style="align-items:flex-end;">
 				<SendFee :size="form.txSize" :target="form.target" @update="fee => form.txFee = fee" />
-				<Button @click="postTx" :disabled="loading || !form.txFee || !form.txSize || !wallet.signTransaction" :icon="ICON.northEast" :color="addressHashColor" :glow="true">{{ InterfaceStore.online ? 'Submit' : 'Sign'}}</Button>
+				<Button @click="postTx" :disabled="loading || !form.txFee || !form.txSize || !wallet.signTransaction" :icon="ICON.northEast" :color="addressHashColor" :glow="true">{{SubmitValue}}</Button>
 			</div>
 			<div>
 				<transition name="slide-up">
@@ -99,21 +99,42 @@ import { addressHashToColor, ICON } from '@/store/Theme'
 import BigNumber from 'bignumber.js'
 import { computed, reactive, ref, watch } from 'vue'
 
-
-
 const props = defineProps<{ wallet: Wallet }>()
 
+const loading = ref(true)
 
+const SubmitValue = ref('Submit')
+if(InterfaceStore.online) {
+	SubmitValue.value = "Submit";
+}
+else {
+	SubmitValue.value = "Sign";
+}
 
 watch(() => props.wallet, () => formWallet.value = props.wallet, { immediate: true })
+
+watch(
+  () => form.txSize,
+  (newVal, oldVal) => {
+    if (Number(newVal) > 0) {
+		console.log("newVal", newVal)
+		console.log("oldVal", oldVal)
+		loading.value = false;
+		SubmitValue.value = "Submit";
+    }	
+    if (Number(newVal) == 0) {
+		loading.value = true;
+		SubmitValue.value = "Please enter data first";
+	}
+  },
+  { immediate: true }
+);
 
 const setMax = async () => {
 	const balance = new BigNumber(props.wallet.balance ?? 0)
 	await awaitEffect(() => form.txFee)
 	form.quantity = balance.minus(form.txFee!).toString()
 }
-
-const loading = ref(false)
 
 const validation: { [key in keyof typeof form | 'global']?: string } = reactive({})
 
@@ -157,10 +178,10 @@ function isValid () {
 }
 
 const postTx = async () => {
-	if (loading.value || !isValid()) { return }
-	loading.value = true
+	if (!isValid()) { return }
+	loading.value = true;
+	SubmitValue.value = "Uploading...";
 	submit(props.wallet)
-	loading.value = false
 }
 
 const addressHash = ref(undefined as undefined | string)

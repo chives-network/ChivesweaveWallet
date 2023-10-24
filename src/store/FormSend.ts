@@ -29,6 +29,7 @@ watch(() => [form.data, formWallet.value?.key], async () => {
 	form.txFee = undefined
 	form.processedData = await getProcessedData(formWallet.value)
 	form.txSize = (await getSize()).toString()
+	console.log("form.txSize",form.txSize)
 }, { deep: true })
 
 

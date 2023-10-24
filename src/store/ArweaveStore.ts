@@ -20,7 +20,7 @@ declare type TransactionNode = {
 };
 
 
-export const gatewayDefault = 'https://api.chivesweave.net/' //'https://api.chivesweave.net/'
+export const gatewayDefault = 'https://api.chivesweave.net:1986/' //'https://api.chivesweave.net:1986/'
 export const bundlerDefault = 'https://node2.bundlr.network/'
 
 if (localStorage.getItem('gateway') === JSON.stringify(gatewayDefault)) { localStorage.removeItem('gateway') } // todo remove, temp conversion
@@ -423,15 +423,15 @@ export function arweaveQueryBundleId (TxId: string) { // todo rename to arweaveB
 					resultItem.url = 'None'
 
 					results.push(resultItem)
-					//console.log("unBundleItem id",Item.id)
-					//console.log("unBundleItem tags",Item.tags)
-					//console.log("unBundleItem owner",Item.owner)
-					//console.log("unBundleItem anchor",Item.anchor)
-					//console.log("unBundleItem target",Item.target)
-					//console.log("unBundleItem signature",Item.signature)
-					//console.log("unBundleItem signatureType",Item.signatureType)
-					//console.log("unBundleItem data",Item.data)
-					//console.log("unBundleItem",resultItem)
+					console.log("unBundleItem id",Item.id)
+					console.log("unBundleItem tags",Item.tags)
+					console.log("unBundleItem owner",Item.owner)
+					console.log("unBundleItem anchor",Item.anchor)
+					console.log("unBundleItem target",Item.target)
+					console.log("unBundleItem signature",Item.signature)
+					console.log("unBundleItem signatureType",Item.signatureType)
+					console.log("unBundleItem data",Item.data)
+					console.log("unBundleItem",resultItem)
 				})
 				//*/
 				status.completed = true

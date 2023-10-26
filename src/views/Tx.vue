@@ -29,11 +29,10 @@
 								</div>
 							</div>
 							
-							<div v-if="tx.bundledIn?.id">
+							<div v-if="tx.bundleid">
 								<h3>Bundle</h3>
 								<div class="flex-column">
-									<TxCard v-if="bundleTx" :tx="bundleTx" :options="{ space: true }" />
-									<div class="secondary-text"><Address :tx="tx.bundledIn?.id">ID:&nbsp;</Address></div>
+									<div class="secondary-text"><Address :tx="tx.bundleid">ID:&nbsp;</Address></div>
 								</div>
 							</div>
 							

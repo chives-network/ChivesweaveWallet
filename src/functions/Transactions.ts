@@ -83,7 +83,7 @@ export function generateManifest (localPaths: string[], transactions: Array<{ id
 	const indexParam = index ? { index: { path: index } } : {}
 	return {
 		data: JSON.stringify({
-			manifest: 'arweave/paths',
+			manifest: 'chivesweave/paths',
 			version: '0.1.0',
 			...indexParam,
 			paths,

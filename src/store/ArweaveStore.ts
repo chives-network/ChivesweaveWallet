@@ -162,7 +162,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 						else {						
 							PageId_Sent = PageId_Sent + 1
 						}
-						//console.log("getQueryManager sent 2 ",results)
+						//console.log("getQueryManager  2 ",results)
 						list.add(results || [])
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='files') {
@@ -401,39 +401,9 @@ export function arweaveQueryBundleId (TxId: string) { // todo rename to arweaveB
 			if (status.completed) { return data.value }
 			let results: any = []
 			try {
-				//7tNqr1D4Nnb7wcldQjB9GPhpMD0Gsq2bGJ8--T03Tbc
-				const { unbundleData } = await import('@/../scripts/arbundles')
-				const url = ArweaveStore.gatewayURL+TxId
-				const result = await fetch(url).then(res => res.arrayBuffer()).catch(() => {})
-				const buffer = Buffer.from(result);
-				const unbundleDataBuffer = unbundleData(buffer);
-				///*
-				unbundleDataBuffer.items.map(Item => {
-					const resultItem: any = {}
-					resultItem.id = Item.id
-					resultItem.owner = {'address': Item.owner}
-					resultItem.owner = {'recipient': Item.target}
-					resultItem.fee = {'winston': Item.reward, 'xwe': Item.reward}
-					resultItem.block = {'height': 0, "indep_hash": "indep_hash"}
-					resultItem.timestamp = Item.timestamp
-					resultItem.tags = Item.tags
-					const contentTypeTag = Item.tags.find(tag => tag.name === "Content-Type");
-					const fileType = contentTypeTag ? contentTypeTag.value : undefined;
-					resultItem.data = {'size': Item.data.length, 'type': fileType}
-					resultItem.url = 'None'
-
-					results.push(resultItem)
-					console.log("unBundleItem id",Item.id)
-					console.log("unBundleItem tags",Item.tags)
-					console.log("unBundleItem owner",Item.owner)
-					console.log("unBundleItem anchor",Item.anchor)
-					console.log("unBundleItem target",Item.target)
-					console.log("unBundleItem signature",Item.signature)
-					console.log("unBundleItem signatureType",Item.signatureType)
-					console.log("unBundleItem data",Item.data)
-					console.log("unBundleItem",resultItem)
-				})
-				//*/
+				const url = ArweaveStore.gatewayURL+"tx/"+TxId+"/unbundle"
+				results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
+				console.log("results", results)
 				status.completed = true
 				data.value.push(...results)
 			} catch (e) { console.error(e); await new Promise<void>(res => setTimeout(() => res(), 10000)) }

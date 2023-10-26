@@ -17,7 +17,7 @@ const slots = useSlots()
 
 const amount = ref(undefined as undefined | string)
 watch(() => props, async () => {
-	if (props.ar) { return amount.value = props.ar }
+	if (props.ar != undefined) { return amount.value = props.ar }
 	if (props.winston) { return amount.value = arweave.ar.winstonToAr(props.winston) }
 	amount.value = undefined
 }, { immediate: true, deep: true })

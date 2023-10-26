@@ -101,7 +101,12 @@ export async function submit (wallet: Wallet) {
 		}).then(tx => wallet.signTransaction(tx))
 		manageUpload(tx)
 		const walletId = Number(wallet.id) || 0
-		router.push({ name: 'TxList', params: { walletId, 'queryName':'sent' } })
+		if(form.target !=undefined && form.target !="") {
+			router.push({ name: 'TxList', params: { walletId, 'queryName':'sent' } })
+		}
+		else {
+			router.push({ name: 'TxList', params: { walletId, 'queryName':'files' } })
+		}		
 		reset()
 	} catch (e: any) {
 		console.error(e)

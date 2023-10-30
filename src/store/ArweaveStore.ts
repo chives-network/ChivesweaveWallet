@@ -144,7 +144,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 				for (let i = 0; !fulfilled; i++) {
 					//console.log("getQueryManager results 1 ", optionsRef.value)
 					if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
-						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['recipients'][0] +'/deposits/'+ PageId_Deposits +'/'+ PageRecords_Deposits).then(res => res.json().then(res => res)).catch(() => {})
+						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['recipients'][0] +'/deposits/'+ PageId_Deposits +'/'+ PageRecords_Deposits).then(res => res.json().then(res => res.data)).catch(() => {})
 						if(results && results.length!=PageRecords_Sent) {
 							fulfilled = true
 						}
@@ -155,7 +155,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 						list.add(results || [])
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='sent') {
-						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/send/'+ PageId_Sent +'/'+ PageRecords_Sent).then(res => res.json().then(res => res)).catch(() => {})
+						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/send/'+ PageId_Sent +'/'+ PageRecords_Sent).then(res => res.json().then(res => res.data)).catch(() => {})
 						if(results && results.length!=PageRecords_Sent) {
 							fulfilled = true
 						}
@@ -166,7 +166,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 						list.add(results || [])
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='files') {
-						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/datarecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res)).catch(() => {})
+						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/datarecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res.data)).catch(() => {})
 						if(results && results.length!=PageRecords_Sent) {
 							fulfilled = true
 						}
@@ -177,7 +177,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 						list.add(results || [])
 					}
 					if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='all') {
-						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/txsrecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res)).catch(() => {})
+						results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/txsrecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res.data)).catch(() => {})
 						if(results && results.length!=PageRecords_Sent) {
 							fulfilled = true
 						}
@@ -238,7 +238,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 			for (let i = 0; !fulfilled; i++) {
 				//console.log("getAsyncData161______",optionsRef.value)
 				if(optionsRef.value != undefined && "recipients" in optionsRef.value && optionsRef.value['recipients']) {
-					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['recipients'][0] +'/deposits/'+ PageId_Deposits +'/'+ PageRecords_Deposits).then(res => res.json().then(res => res)).catch(() => {})
+					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['recipients'][0] +'/deposits/'+ PageId_Deposits +'/'+ PageRecords_Deposits).then(res => res.json().then(res => res.data)).catch(() => {})
 					if(results && results.length!=PageRecords_Sent) {
 						fulfilled = true
 					}
@@ -249,7 +249,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 					list.add(results || [])
 				}
 				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='sent') {
-					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/send/'+ PageId_Sent +'/'+ PageRecords_Sent).then(res => res.json().then(res => res)).catch(() => {})
+					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/send/'+ PageId_Sent +'/'+ PageRecords_Sent).then(res => res.json().then(res => res.data)).catch(() => {})
 					if(results && results.length!=PageRecords_Sent) {
 						fulfilled = true
 					}
@@ -260,7 +260,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 					list.add(results || [])
 				}
 				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='files') {
-					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/datarecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res)).catch(() => {})
+					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/datarecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res.data)).catch(() => {})
 					if(results && results.length!=PageRecords_Sent) {
 						fulfilled = true
 					}
@@ -271,7 +271,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 					list.add(results || [])
 				}
 				if(optionsRef.value != undefined && "owners" in optionsRef.value && optionsRef.value['owners'] && "type" in optionsRef.value && optionsRef.value['type']=='all') {
-					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/txsrecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res)).catch(() => {})
+					results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ optionsRef.value['owners'][0] +'/txsrecord/'+ PageId_Data +'/'+ PageRecords_Data).then(res => res.json().then(res => res.data)).catch(() => {})
 					if(results && results.length!=PageRecords_Sent) {
 						fulfilled = true
 					}
@@ -365,7 +365,7 @@ export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo renam
 			try {
 				const PageId = 1
 				const url = ArweaveStore.gatewayURL+'blockpage/'+ PageId +'/10'
-				results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
+				results = await fetch(url).then(res => res.json().then(res => res.data)).catch(() => {})
 				status.completed = true
 				data.value.push(...results)
 			} catch (e) { console.error(e); await new Promise<void>(res => setTimeout(() => res(), 10000)) }
@@ -378,7 +378,7 @@ export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo renam
 		query: async () => {
 			const PageId = 1
 			const url = ArweaveStore.gatewayURL+'blockpage/'+ PageId +'/10'
-			const results = await fetch(url).then(res => res.json().then(res => res)).catch(() => {})
+			const results = await fetch(url).then(res => res.json().then(res => res.data)).catch(() => {})
 			return results
 		},
 		seconds: refresh,

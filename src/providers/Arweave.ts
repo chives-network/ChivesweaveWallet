@@ -91,7 +91,7 @@ export class ArweaveAccount extends Emitter implements Account {
 		name: 'pendingbalance',
 		awaitEffect: () => this.key,
 		query: async () => {
-			const results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ this.key! +'/txsrecord/0/20').then(res => res.json().then(res => res)).catch(() => {})
+			const results = await fetch(ArweaveStore.gatewayURL+'wallet/'+ this.key! +'/txsrecord/0/20').then(res => res.json().then(res => res.data)).catch(() => {})
 			let PendingTxsAmount = 0
 			if(results) {
 				for (const result of results) {

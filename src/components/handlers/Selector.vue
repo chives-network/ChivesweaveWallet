@@ -25,6 +25,7 @@
 
 
 <script setup lang="ts">
+import Model3D from '@/components/handlers/Model3D.vue'
 import Img from '@/components/handlers/Img.vue'
 import Video from '@/components/handlers/Video.vue'
 import Button from '@/components/atomic/Button.vue'
@@ -78,6 +79,14 @@ async function load () {
 			is: markRaw(List),
 			attrs: { query: arweaveQueryBundleId(props.tx.id), component: markRaw(TxCard), componentProps: { options: { space: true } }, class: ['column'] },
 			containerAttrs: { class: ['data-container', 'column-container', 'padding'] }
+		}
+	}
+else if (tags['Content-Type'] === 'model/stl') {
+		data.loaded = true
+		return data.handler = {
+			is: markRaw(Model3D),
+			attrs: { src: gatewayLink.value + '.stl' },
+			containerAttrs: { class: ['img-container'] }
 		}
 	}
 	else if (tags['Content-Type'] === 'application/x.chivesweave-manifest+json' || tags['Content-Type'] === 'text/html' || tags['Content-Type'] === 'application/pdf') { return data.handler = { is: 'iframe', attrs: { src: gatewayLink.value, class: ['hover'] }, containerAttrs: { class: ['iframe-container', 'fixed-height'] } } }

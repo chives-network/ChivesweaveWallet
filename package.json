@@ -37,6 +37,7 @@
 		"tippy.js": "^6.3.7",
 		"uuid": "^8.3.2",
 		"vue": "^3.2.47",
+		"vue-3d-loader": "^2.2.1",
 		"vue-router": "^4.0.12",
 		"vue-slicksort": "^2.0.5"
 	},

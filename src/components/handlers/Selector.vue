@@ -1,6 +1,7 @@
 <template>
 	<TransitionsManager>
-		<div v-if="data.handler === 'intent'" @click="data.intent = true" class="selector data-container min-height box" style="display: flex; justify-content: center; padding-top: 5em;">
+		<div v-if="data.handler === 'intent'" @click="data.intent = true" class="selector data-container min-height box"
+			style="display: flex; justify-content: center; padding-top: 5em;">
 			<Button :icon="ICON.download">Load large file</Button>
 		</div>
 		<div v-else-if="data.handler === 'raw'" key="json" class="selector data-container min-height box">
@@ -15,7 +16,8 @@
 			</TransitionsManager>
 			<TransitionsManager>
 				<div v-show="data.loaded" v-bind="data.handler.containerAttrs" class="box">
-					<component :is="data.handler.is" v-bind="data.handler.attrs" @load="data.loaded = true" @error="data.error = true; notify.error('Failed to load')" />
+					<component :is="data.handler.is" v-bind="data.handler.attrs" @load="data.loaded = true"
+						@error="data.error = true; notify.error('Failed to load')" />
 				</div>
 			</TransitionsManager>
 		</div>
@@ -70,7 +72,7 @@ watch(() => props.tx.id, () => {
 }, { immediate: true })
 watch(() => data.intent, () => data.intent && load())
 
-async function load () {
+async function load() {
 	if (!props.tx || props.tx.data?.size === '0' || props.tx.data?.size == null) { return }
 	const tags = unpackTags(props.tx.tags)
 	if (tags['Bundle-Version']) {
@@ -81,7 +83,7 @@ async function load () {
 			containerAttrs: { class: ['data-container', 'column-container', 'padding'] }
 		}
 	}
-else if (tags['Content-Type'] === 'model/stl') {
+	else if (tags['Content-Type'] === 'model/stl' || tags['File-Name']?.slice(-4) === '.stl') {
 		data.loaded = true
 		return data.handler = {
 			is: markRaw(Model3D),
@@ -89,13 +91,25 @@ else if (tags['Content-Type'] === 'model/stl') {
 			containerAttrs: { class: ['img-container'] }
 		}
 	}
-	else if (tags['Content-Type'] === 'application/x.chivesweave-manifest+json' || tags['Content-Type'] === 'text/html' || tags['Content-Type'] === 'application/pdf') { return data.handler = { is: 'iframe', attrs: { src: gatewayLink.value, class: ['hover'] }, containerAttrs: { class: ['iframe-container', 'fixed-height'] } } }
-	else if (tags['Content-Type']?.split('/')[0] === 'video') { data.loaded = true; return data.handler = { is: markRaw(Video), attrs: { tx: props.tx }, containerAttrs: { class: ['iframe-container'] } } }
-	else if (tags['Content-Type']?.split('/')[0] === 'audio') { data.loaded = true; return data.handler = { is: markRaw(Video), attrs: { tx: props.tx }, containerAttrs: { class: ['iframe-container'] } } }
+	else if (tags['Content-Type'] === 'application/x.chivesweave-manifest+json' || tags['Content-Type'] === 'text/html' || tags['Content-Type'] === 'application/pdf') {
+		return data.handler = { is: 'iframe', attrs: { src: gatewayLink.value, class: ['hover'] }, containerAttrs: { class: ['iframe-container', 'fixed-height'] } }
+	}
+	else if (tags['Content-Type']?.split('/')[0] === 'video') {
+		data.loaded = true; return data.handler = { is: markRaw(Video), attrs: { tx: props.tx }, containerAttrs: { class: ['iframe-container'] } }
+	}
+	else if (tags['Content-Type']?.split('/')[0] === 'audio') {
+		data.loaded = true; return data.handler = { is: markRaw(Video), attrs: { tx: props.tx }, containerAttrs: { class: ['iframe-container'] } }
+	}
 	// else if (tags['Content-Type']?.split('/')[0] === 'audio') { return data.handler = { is: 'iframe', attrs: { src: gatewayLink.value }, containerAttrs: { class: ['iframe-container', 'fixed-height'] } } }
-	else if (props.tx.data.size > 104857600 && !data.intent) { return data.handler = 'intent' }
-	else if (tags['Content-Type']?.split('/')[0] === 'image') { return data.handler = { is: markRaw(Img), attrs: { src: gatewayLink.value }, containerAttrs: { class: ['img-container'] } } }
-	else if (tags['App-Name'] === 'SmartWeaveContract' || tags['App-Name'] === 'SmartWeaveContractSource') { return data.handler = { is: 'iframe', attrs: { src: smartweaveLink.value }, containerAttrs: { class: ['iframe-container', 'fixed-height'] } } }
+	else if (props.tx.data.size > 104857600 && !data.intent) {
+		return data.handler = 'intent'
+	}
+	else if (tags['Content-Type']?.split('/')[0] === 'image') {
+		return data.handler = { is: markRaw(Img), attrs: { src: gatewayLink.value }, containerAttrs: { class: ['img-container'] } }
+	}
+	else if (tags['App-Name'] === 'SmartWeaveContract' || tags['App-Name'] === 'SmartWeaveContractSource') {
+		return data.handler = { is: 'iframe', attrs: { src: smartweaveLink.value }, containerAttrs: { class: ['iframe-container', 'fixed-height'] } }
+	}
 	else {
 		data.handler = 'raw'
 		try { if (tags['Content-Type'] === 'application/gzip') { data.payload ??= await gzipDecompress(props.tx.id) } } catch (e) { console.error(e) }
@@ -108,7 +122,7 @@ else if (tags['Content-Type'] === 'model/stl') {
 
 async function gzipDecompress(tx: string) {
 	let res: any
-	try { res ??= (await arweave.api.get(tx, {responseType: 'blob'})).data } catch (e) { }
+	try { res ??= (await arweave.api.get(tx, { responseType: 'blob' })).data } catch (e) { }
 	try { res ??= new Blob([await arweave.transactions.getData(tx, { decode: true })]) } catch (e) { }
 	const ds = new DecompressionStream('gzip')
 	const decompressedStream = res.stream().pipeThrough(ds)
@@ -139,9 +153,7 @@ async function gzipDecompress(tx: string) {
 	flex-direction: column;
 }
 
-.img-container {
-
-}
+.img-container {}
 
 .padding {
 	padding: var(--spacing);
@@ -196,5 +208,4 @@ iframe.hover:hover {
 
 .verticalContent .loader {
 	position: relative;
-}
-</style>
+}</style>

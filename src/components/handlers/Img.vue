@@ -70,7 +70,8 @@ img {
 }
 
 .img.x img {
-	height: 100%;
+	width: 100%;
+	max-height: 100%;
 }
 
 .img.y .frame-scroller {

@@ -401,7 +401,7 @@ export function arweaveQueryBundleId (TxId: string) { // todo rename to arweaveB
 			if (status.completed) { return data.value }
 			let results: any = []
 			try {
-				const url = ArweaveStore.gatewayURL+"tx/"+TxId+"/unbundle"
+				const url = ArweaveStore.gatewayURL+"tx/"+TxId+"/unbundle/0/100"
 				results = await fetch(url).then(res => res.json().then(res => res.txs)).catch(() => {})
 				console.log("results", results)
 				status.completed = true

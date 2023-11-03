@@ -95,6 +95,7 @@ async function load() {
 		return data.handler = { is: 'iframe', attrs: { src: gatewayLink.value, class: ['hover'] }, containerAttrs: { class: ['iframe-container', 'fixed-height'] } }
 	}
 	else if (tags['Content-Type']?.split('/')[0] === 'video') {
+		console.log("tags['Content-Type']?.split('/')[0]", tags['Content-Type']?.split('/')[0])
 		data.loaded = true; return data.handler = { is: markRaw(Video), attrs: { tx: props.tx }, containerAttrs: { class: ['iframe-container'] } }
 	}
 	else if (tags['Content-Type']?.split('/')[0] === 'audio') {

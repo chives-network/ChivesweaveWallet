@@ -44,7 +44,19 @@ export async function addFiles (files?: FileWithPath[]) {
 		setBaseTags(tags, {
 			'Content-Type': file.type,
 			'File-Name': file.name,
-			'File-Hash': await getHash({ data })
+			'File-Hash': await getHash({ data }),
+			'File-Public': 'Public',
+          	'File-Summary': '',
+          	'Cipher-ALG': '',
+			'File-Parent': 'Root',
+			'File-Language': 'en',
+			'File-Pages': '',
+			'Entity-Type': 'File',
+			'App-Name': 'ChivesweaveWallet',
+			'App-Platform': 'web',
+			'App-Version': '0.1',
+			'Agent-Name': '',
+			'Unix-Time': String(Date.now())
 		})
 		return { data, tags, path: file.normalizedPath }
 	})))
@@ -52,12 +64,26 @@ export async function addFiles (files?: FileWithPath[]) {
 		setBaseTags(form.tags, {
 			'Bundle-Format': 'binary',
 			'Bundle-Version': '2.0.0',
+			'Entity-Type': 'File',
+			'Entity-Number': String(files.length),
 		})
 	} else {
 		setBaseTags(form.tags, {
 			'Content-Type': files[0].type,
 			'File-Name': files[0].name,
-			'File-Hash': await getHash(form.data[0])
+			'File-Hash': await getHash(form.data[0]),
+			'File-Public': 'Public',
+          	'File-Summary': '',
+          	'Cipher-ALG': '',
+			'File-Parent': 'Root',
+			'File-Language': 'en',
+			'File-Pages': '',
+			'Entity-Type': 'File',
+			'App-Name': 'ChivesweaveWallet',
+			'App-Platform': 'web',
+			'App-Version': '0.1',
+			'Agent-Name': '',
+			'Unix-Time': String(Date.now())
 		})
 	}
 }

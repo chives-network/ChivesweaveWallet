@@ -20,7 +20,7 @@ declare type TransactionNode = {
 };
 
 
-export const gatewayDefault = 'https://api.chivesweave.net:1986/' //'https://api.chivesweave.net:1986/'
+export const gatewayDefault = 'https://api.chivesweave.org:1986/' //'https://api.chivesweave.org:1986/'
 export const bundlerDefault = 'https://node2.bundlr.network/'
 
 if (localStorage.getItem('gateway') === JSON.stringify(gatewayDefault)) { localStorage.removeItem('gateway') } // todo remove, temp conversion

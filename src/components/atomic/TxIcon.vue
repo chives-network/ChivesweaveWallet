@@ -7,7 +7,6 @@
 		<transition name="fade-fast">
 			<img class="image" v-if="tx && tx.data && (tx.block && tx.block.height && tx.block.height==0) && src && canLoad && options.status === 'confirmed' " v-show="loaded" @load="loaded = true" alt="thumbnail" draggable="false" @dragstart.prevent />
 			<img class="image" v-else-if="tx && tx.data && (tx.block==undefined || tx.block.height>0) && src && canLoad && options.status === 'confirmed' " v-show="loaded" @load="loaded = true" :src="src" alt="thumbnail" draggable="false" @dragstart.prevent />
-			<Video class="image" v-else-if="vid && canLoad && options.status === 'confirmed'" :tx="tx" :thumbnail="true" />
 		</transition>
 	</Observer>
 </template>

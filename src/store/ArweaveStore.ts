@@ -109,7 +109,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 		sort: blockSort, // todo use txSort
 		prioritize: (a, b) => a.block && b.block ? blockSort(a, b) : +!!b.block - +!!a.block 
 	})
-	const refresh = 10
+	const refresh = 120
 	const refreshEnabled = ref(false)
 	const refreshSwitch = ref(true) // todo
 	
@@ -122,13 +122,13 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 	
 
 	let PageId_Deposits = 0
-	let PageRecords_Deposits = 20
+	let PageRecords_Deposits = 200
 
 	let PageId_Sent = 0
-	let PageRecords_Sent = 20
+	let PageRecords_Sent = 200
 
 	let PageId_Data = 0
-	let PageRecords_Data = 20
+	let PageRecords_Data = 200
 
 	let PendingTxsAmount = 0
 	
@@ -149,7 +149,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 							fulfilled = true
 						}
 						else {						
-							PageId_Deposits = PageId_Deposits + 1
+							// PageId_Deposits = PageId_Deposits + 1
 						}
 						//console.log("getQueryManager deposits 2 ",results)
 						list.add(results || [])
@@ -160,7 +160,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 							fulfilled = true
 						}
 						else {						
-							PageId_Sent = PageId_Sent + 1
+							// PageId_Sent = PageId_Sent + 1
 						}
 						//console.log("getQueryManager  2 ",results)
 						list.add(results || [])
@@ -171,7 +171,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 							fulfilled = true
 						}
 						else {						
-							PageId_Data = PageId_Data + 1
+							// PageId_Data = PageId_Data + 1
 						}
 						//console.log("getQueryManager all 2 ",results)
 						list.add(results || [])
@@ -182,7 +182,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 							fulfilled = true
 						}
 						else {						
-							PageId_Data = PageId_Data + 1
+							// PageId_Data = PageId_Data + 1
 						}
 						//console.log("getQueryManager files 2 ",results)
 						list.add(results || [])
@@ -243,7 +243,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 						fulfilled = true
 					}
 					else {						
-						PageId_Deposits = PageId_Deposits + 1
+						// PageId_Deposits = PageId_Deposits + 1
 					}
 					//console.log("getQueryManager deposits 2 ",results)
 					list.add(results || [])
@@ -254,7 +254,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 						fulfilled = true
 					}
 					else {						
-						PageId_Sent = PageId_Sent + 1
+						// PageId_Sent = PageId_Sent + 1
 					}
 					//console.log("getQueryManager sent PageId_Deposits ",PageId_Deposits)
 					list.add(results || [])
@@ -265,7 +265,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 						fulfilled = true
 					}
 					else {						
-						PageId_Data = PageId_Data + 1
+						// PageId_Data = PageId_Data + 1
 					}
 					//console.log("getQueryManager files 2 ",results)
 					list.add(results || [])
@@ -276,7 +276,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 						fulfilled = true
 					}
 					else {						
-						PageId_Data = PageId_Data + 1
+						// PageId_Data = PageId_Data + 1
 					}
 					//console.log("getQueryManager all 2 ",results)
 					list.add(results || [])
@@ -354,7 +354,7 @@ export function arweaveQuery (options: arweaveQueryOptions, name = 'tx query lis
 export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo rename to arweaveBlocks and make reactive
 	const status = reactive({ completed: false })
 	const data = ref([] as BlockEdge[])
-	const refresh = 10
+	const refresh = 120
 	const refreshEnabled = ref(false)
 	
 	const fetchQuery = getQueryManager({
@@ -392,7 +392,7 @@ export function arweaveQueryBlocks (options: Parameters<any>[0]) { // todo renam
 export function arweaveQueryBundleId (TxId: string) { // todo rename to arweaveBlocks and make reactive
 	const status = reactive({ completed: false })
 	const data = ref([] as BlockEdge[])
-	const refresh = 10
+	const refresh = 120
 	const refreshEnabled = ref(false)
 	
 	const fetchQuery = getQueryManager({
@@ -433,7 +433,7 @@ export function arweaveQueryBundleId (TxId: string) { // todo rename to arweaveB
 export function arweaveQueryTxsRecord (blockHeight: number) { // todo rename to arweaveBlocks and make reactive
 	const status = reactive({ completed: false })
 	const data = ref([] as BlockEdge[])
-	const refresh = 10
+	const refresh = 120
 	const refreshEnabled = ref(false)
 	
 	const fetchQuery = getQueryManager({
@@ -472,7 +472,7 @@ export function queryAggregator (queries: RefMaybe<ReturnType<typeof arweaveQuer
 		sort: blockSort, // todo use txSort
 		prioritize: (a, b) => a.block && b.block ? blockSort(a, b) : +!!b.block - +!!a.block 
 	})
-	const refresh = 10
+	const refresh = 120
 	const queriesRef = makeRef(queries)
 	const refreshSwitch = ref(true) // todo
 	watch(refreshSwitch, val => queriesRef.value.forEach(q => q.refreshSwitch = val))

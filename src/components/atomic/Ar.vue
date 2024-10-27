@@ -18,7 +18,7 @@ const props = defineProps<{
 	ar?: string | number
 	winston?: string | number
 }>()
-const amountRounded = computed(() => round(normalizeTo('ar', props)))
+const amountRounded = computed(() => round(normalizeTo('ar', props), 4))
 </script>
 
 

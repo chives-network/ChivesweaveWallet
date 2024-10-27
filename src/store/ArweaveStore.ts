@@ -611,7 +611,7 @@ const networkInfoData = getAsyncData({
 	name: 'network info',
 	query: () => arweave.network.getInfo(),
 	processResult: state => typeof state === 'string' ? JSON.parse(state) : state,
-	seconds: 10,
+	seconds: 60,
 })
 watch(() => ArweaveStore.gatewayURL, () => networkInfoData.state.value = undefined)
 export const networkInfo = networkInfoData.state

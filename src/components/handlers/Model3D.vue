@@ -4,16 +4,15 @@
 	:cameraPosition="{ x: 1, y: -5, z: -100 }"
 	:filePath="src"
 	:lights="lights"
-	:crossOrigin="anonymous"
 	:backgroundAlpha="0"
+	:fileType="modelType"
 	class="img"
 	></vue3dLoader>
 </template>
 
 <script lang="ts" setup>
 import { vue3dLoader } from "vue-3d-loader";
-
-const props = defineProps(['src'])
+const props = defineProps(['src','modelType'])
 const lights = [
   {
     type: "AmbientLight",

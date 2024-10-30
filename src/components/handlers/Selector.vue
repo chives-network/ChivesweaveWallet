@@ -83,11 +83,11 @@ async function load() {
 			containerAttrs: { class: ['data-container', 'column-container', 'padding'] }
 		}
 	}
-	else if (tags['Content-Type'] === 'model/stl' || tags['File-Name']?.slice(-4) === '.stl') {
+	else if (tags['Content-Type'] === 'model/stl') {
 		data.loaded = true
 		return data.handler = {
 			is: markRaw(Model3D),
-			attrs: { src: gatewayLink.value + '.stl' },
+			attrs: { src: gatewayLink.value, modelType: "stl" },
 			containerAttrs: { class: ['img-container'] }
 		}
 	}
